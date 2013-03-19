@@ -1,4 +1,4 @@
-superbox
+Superbox
 ========
 
 Superbox, the lightbox, reimagined
