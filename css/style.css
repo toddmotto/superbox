@@ -1,110 +1,185 @@
-/*
-	Todd Motto Labs
-	URL: www.toddmotto.com
-*/
-
-/*------------------------------------*\
-    SuperBox
-\*------------------------------------*/
-*,
-*:after,
-*:before {
+/* 
+ * http://meyerweb.com/eric/tools/css/reset/ 
+ * v2.0 | 20110126
+ * License: none (public domain)
+ */
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video
+{
 	margin:0;
 	padding:0;
-	box-sizing:border-box;
-	-webkit-box-sizing:border-box;
-	-moz-box-sizing:border-box;
-	-webkit-font-smoothing:antialiased;
-	-moz-font-smoothing:antialiased;
-	-o-font-smoothing:antialiased;
-	font-smoothing:antialiased;
-	text-rendering:optimizeLegibility;
+	border:0;
+	vertical-align:baseline;
+	font:inherit;
+	font-size:100%;
 }
-body {
-	background:#e16461;
+
+/* HTML5 display-role reset for older browsers */
+article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section
+{
+	display:block;
 }
-ul {
+
+body
+{
+	line-height:1;
+}
+
+ol,ul
+{
 	list-style:none;
 }
-img {
-	vertical-align:bottom;
+
+blockquote,q
+{
+	quotes:none;
 }
-.wrapper {
-	max-width:1280px;
+
+blockquote:before,blockquote:after,q:before,q:after
+{
+	content:'';
+	content:none;
+}
+
+table
+{
+	border-spacing:0;
+	border-collapse:collapse;
+}
+
+/*
+ * Demo site styles
+ */
+body
+{
+	background:#e16461;
+}
+
+.wrapper
+{
 	margin:0 auto;
+	max-width:1280px;
 }
-.logo {
+
+.logo
+{
 	margin:25px 0;
 	text-align:center;
 }
-.logo-img {
+
+.logo-img
+{
 	max-width:95%;
 }
-/* SuperBox */
-.superbox-list {
+
+/**
+ * SuperBox v2.0.0
+ * 
+ * The lightbox reimagined. Fully responsive HTML5 image galleries.
+ * 
+ * Latest version: https://github.com/toddmotto/superbox
+ * 
+ * Copyright 2013 Todd Motto <http://www.toddmotto.com> / Adam Merrifield <http://seydesign.com>
+ * 
+ * Licensed under the MIT license <http://www.opensource.org/licenses/mit-license.php>
+ */
+.superbox-active *
+{
+	-webkit-box-sizing:border-box;
+	-moz-box-sizing:border-box;
+	box-sizing:border-box;
+} 
+.superbox-active > div
+{
+	position:relative;
+	left:4px;
 	display:inline-block;
-	*display:inline;
-	zoom:1;
+	margin-left:-4px;
 	width:12.5%;
+	zoom:1;
 }
-.superbox-img {
+
+.superbox-active > div img
+{
 	max-width:100%;
 	width:100%;
+	vertical-align:bottom;
 	cursor:pointer;
 }
-.superbox-show {
-	text-align:center;
+
+.superbox-active > div img:hover
+{
+	opacity:.8;
+}
+
+.superbox-active > div.superbox-show
+{
 	position:relative;
+	display:none;
+	float:left;
+	padding:25px;
+	width:100%;
 	background:#333;
 	box-shadow:inset 0 1px 5px #111;
-	-webkit-box-shadow:inset 0 1px 5px #111;
-	-moz-box-shadow:inset 0 1px 5px #111;
-	width:100%;
-    float:left;
-	padding:25px;
-	display:none;
+	text-align:center;
 }
-.superbox-current-img {
+
+.superbox-active > div.superbox-show img.superbox-current-img
+{
 	max-width:100%;
-	box-shadow:0 1px 4px #222;
+	width:auto;
 	border:1px solid #222;
+	box-shadow:0 1px 4px #222;
+	opacity:0;
 }
-.superbox-img:hover {
-	opacity:0.8;
-}
-.superbox-float {
-	float:left;
-}
-.superbox-close {
-	opacity:0.7;
-	cursor:pointer;
+
+.superbox-close
+{
 	position:absolute;
 	top:25px;
 	right:25px;
-	background:url(../img/close.gif) no-repeat center center;
 	width:35px;
 	height:35px;
+	color: #fff;
+	text-decoration: none;
+	font: normal 35px Helvetica;
+	opacity:0.7;
+	cursor:pointer;
 }
-.superbox-close:hover {
+
+.superbox-close:hover
+{
 	opacity:1;
 }
+
+.superbox-float
+{
+	float:left;
+}
+
 @media only screen and (min-width: 320px) {
-	.superbox-list {
+	.superbox-active > div
+	{
 		width:50%;
 	}
 }
+
 @media only screen and (min-width: 486px) {
-	.superbox-list {
+	.superbox-active > div
+	{
 		width:25%;
 	}
 }
+
 @media only screen and (min-width: 768px) {
-	.superbox-list {
+	.superbox-active > div
+	{
 		width:16.66666667%;
 	}
 }
+
 @media only screen and (min-width: 1025px) {
-	.superbox-list {
+	.superbox-active > div
+	{
 		width:12.5%;
 	}
 }
