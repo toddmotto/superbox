@@ -8,6 +8,10 @@ SuperBox is a new jQuery plugin I've been composing over the last few days. Supe
 
 SuperBox works wonders as a static image gallery, which you can click to reveal a full version of the image. Each image in the demo is the same size, but SuperBox supports any image size.
 
+### Demo
+
+You can view the 2.0 [demo here](http://seydoggy.com/demo/superbox/), at least until the Todd merges my branch anyhow.
+
 ### Instructions
 
 1. Include jQuery in your page (likely just before the body tag).
