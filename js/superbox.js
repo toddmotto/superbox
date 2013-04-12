@@ -88,7 +88,7 @@
 					.next('.superbox-O')
 						.removeClass('superbox-O')
 						.addClass('superbox-X')
-						.find('img.superbox-current-img, div.superbox-close')
+						.find('img.superbox-current-img, a.superbox-close')
 							.animate({opacity:0},100)
 						.end()
 							.slideUp();
@@ -101,7 +101,7 @@
 									scrollTop: ($('.superbox-O').offset().top) - (($(window).height() - $('.superbox-O').height())/2)
 							}, 'fast');
 						})
-						.find('img.superbox-current-img, div.superbox-close')
+						.find('img.superbox-current-img, a.superbox-close')
 							.animate({opacity:1},1000);
 
 			});
