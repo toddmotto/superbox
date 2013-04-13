@@ -13,6 +13,9 @@
 
 	$.fn.SuperBox = function(options) {
 
+		/**
+		 * OPTIONS
+		 */
 		var settings = $.extend({
 			background : null,
 			border : null,
@@ -20,18 +23,70 @@
 			xShadow : 'none'
 		}, options);
 
+		/**
+		 * DECLARATIONS
+		 */
 		var sbShow = $('<div class="superbox-show superbox-X"/>'),
 			sbImg = $('<img src="" class="superbox-current-img"/>'),
 			sbClose = $('<a href="#" class="superbox-close">&#215;</a>'),
 			sbFloat = $('<div class="superbox-float"/>'),
 			sbList = this.find('>div');
 
+		/**
+		 * closeUp
+		 * 
+		 * Closes any open superbox-show
+		 * Accepts element (selector) parameter.
+		 */
+		var closeUp = (function(elem){
+			elem
+				.next('.superbox-O')
+					.removeClass('superbox-O')
+					.addClass('superbox-X')
+					.find('img.superbox-current-img, a.superbox-close')
+						.animate({opacity:0},100)
+					.end()
+						.slideUp();
+		});
+
+		/**
+		 * openUp
+		 * 
+		 * opens the clicked $(this).next() superbox-show
+		 * Accepts element (selector) parameter.
+		 */
+		var openUp = (function(elem){
+			elem
+				.next()
+					.removeClass('superbox-X')
+					.addClass('superbox-O')
+					.slideDown(function(){
+						$('html,body').animate({
+								scrollTop: ($('.superbox-O').offset().top) - (($(window).height() - $('.superbox-O').height())/2)
+						}, 'fast');
+					})
+					.find('img.superbox-current-img, a.superbox-close')
+						.animate({opacity:1},1000);
+		});
+
+		/*
+		 * Create dynamic superbox content
+		 */
 		sbShow.append(sbImg).append(sbClose).insertAfter(sbList);
 
+		/*
+		 * Create final float
+		 */
 		sbFloat.appendTo(this);
 
+		/*
+		 * Add superbox-active class to allow for CSS to take hold
+		 */
 		this.addClass('superbox-active');
 
+		/*
+		 * Test for and utilize settings.background
+		 */
 		if (settings.background !== null) {
 			sbList
 				.next()
@@ -40,6 +95,9 @@
 					});
 		}
 
+		/*
+		 * Test for and utilize settings.border
+		 */
 		if (settings.border !== null) {
 			sbList
 				.next()
@@ -49,6 +107,9 @@
 						});
 		}
 
+		/*
+		 * Test for and utilize settings.xColor
+		 */
 		if (settings.xColor !== null) {
 			sbList
 				.next()
@@ -58,6 +119,9 @@
 						});
 		}
 
+		/*
+		 * Test for and utilize settings.xShadow
+		 */
 		if (settings.xShadow == 'emboss') {
 			sbList
 				.next()
@@ -74,47 +138,55 @@
 						});
 		}
 
+		/*
+		 * Iterate through each superbox-list
+		 */
 		sbList.each(function(){
+
+			/**
+			 * DECLARATIONS
+			 */
 			var imageData = $(this).find('img').data('img');
 
+			/*
+			 * Add source data to dynamically created full size image
+			 */
 			$(this)
 				.next()
 					.find('img.superbox-current-img')
 						.attr('src',imageData);
 
+			/*
+			 * Open/Close superbox-show based on click
+			 */
 			$(this).on('click',function(){
+				/*
+				 * Close any _other_ open superbox-show if it's not _this_ superbox-show.
+				 */
+				if (!$(this).next('.superbox-O').length) {
+					closeUp(sbList);
+				}
 
-				sbList
-					.next('.superbox-O')
-						.removeClass('superbox-O')
-						.addClass('superbox-X')
-						.find('img.superbox-current-img, a.superbox-close')
-							.animate({opacity:0},100)
-						.end()
-							.slideUp();
-				$(this)
-					.next()
-						.removeClass('superbox-X')
-						.addClass('superbox-O')
-						.slideDown(function(){
-							$('html,body').animate({
-									scrollTop: ($('.superbox-O').offset().top) - (($(window).height() - $('.superbox-O').height())/2)
-							}, 'fast');
-						})
-						.find('img.superbox-current-img, a.superbox-close')
-							.animate({opacity:1},1000);
+				/*
+				 * Close _this_ superbox-show if it's open already, otherwise open it
+				 */
+				if ($(this).next('.superbox-O').length) {
+					closeUp($(this));
+				} else {
+					openUp($(this));
+				}
 
 			});
 
 		});
 
-		$('.superbox-close')
-			.on('click',function(event){
-				event.preventDefault();
-				$(this).add($(this).siblings())
-					.animate({opacity:0},100)
-					.parent().slideUp();
-			});
+		/*
+		 * Close superbox-show when the close button is clicked.
+		 */
+		$('.superbox-close').on('click',function(event){
+			event.preventDefault();
+			closeUp($(this).parent().prev());
+		});
 
 		return this;
 	};
