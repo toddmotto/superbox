@@ -1,15 +1,16 @@
 /**
  * SuperBox v2.0.3
- * 
  * The lightbox reimagined. Fully responsive HTML5 image galleries.
  * 
- * Latest version: https://github.com/toddmotto/superbox
+ * Latest version: https://github.com/seyDoggy/superbox
+ * Original version: https://github.com/toddmotto/superbox
  * 
- * Copyright 2013 Todd Motto <http://www.toddmotto.com> / Adam Merrifield <http://seydesign.com>
+ * Copyright 2013 Todd Motto <http://www.toddmotto.com>
+ * Copyright 2013 Adam Merrifield <http://seydesign.com>
  * 
  * Licensed under the MIT license <http://www.opensource.org/licenses/mit-license.php>
  */
-;(function($) {
+ ;(function($) {
 
 	$.fn.SuperBox = function(options) {
 
