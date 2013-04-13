@@ -1,5 +1,5 @@
 /**
- * SuperBox v2.0.0
+ * SuperBox v2.0.3
  * 
  * The lightbox reimagined. Fully responsive HTML5 image galleries.
  * 
@@ -26,7 +26,9 @@
 		/**
 		 * DECLARATIONS
 		 */
-		var sbShow = $('<div class="superbox-show superbox-X"/>'),
+		var sbImgBottom,
+			sbShowTop,
+			sbShow = $('<div class="superbox-show superbox-X"/>'),
 			sbImg = $('<img src="" class="superbox-current-img"/>'),
 			sbClose = $('<a href="#" class="superbox-close">&#215;</a>'),
 			sbFloat = $('<div class="superbox-float"/>'),
@@ -39,14 +41,45 @@
 		 * Accepts element (selector) parameter.
 		 */
 		var closeUp = (function(elem){
-			elem
-				.next('.superbox-O')
-					.removeClass('superbox-O')
-					.addClass('superbox-X')
+
+			var selection = elem.next('.superbox-O');
+
+			/*
+			 * Swap open and closed classes
+			 */
+			selection.removeClass('superbox-O').addClass('superbox-X');
+
+			/*
+			 * Is a superbox-show in the same row already open? No? Then...
+			 */
+			if (sbImgBottom != sbShowTop) {
+				selection
+					/*
+					 * Fade out image and close icon
+					 */
 					.find('img.superbox-current-img, a.superbox-close')
 						.animate({opacity:0},100)
 					.end()
-						.slideUp();
+						/*
+						 * Slide up superbox-show
+						 */
+						.slideUp(function(){
+							sbShowTop = 0;
+							sbImgBottom = 0;
+						});
+			} else {
+				selection
+					/*
+					 * Fade out image
+					 */
+					.find('img.superbox-current-img')
+						.animate({opacity:0},100)
+					.end()
+						/*
+						 * Since a superbox-show in the same row is already open, no need to slide up and down
+						 */
+						.hide();
+			}
 		});
 
 		/**
@@ -56,17 +89,66 @@
 		 * Accepts element (selector) parameter.
 		 */
 		var openUp = (function(elem){
-			elem
-				.next()
-					.removeClass('superbox-X')
-					.addClass('superbox-O')
-					.slideDown(function(){
-						$('html,body').animate({
-								scrollTop: ($('.superbox-O').offset().top) - (($(window).height() - $('.superbox-O').height())/2)
-						}, 'fast');
-					})
-					.find('img.superbox-current-img, a.superbox-close')
-						.animate({opacity:1},1000);
+
+			var selection = elem.next();
+
+			/*
+			 * Swap open and closed classes
+			 */
+			selection.removeClass('superbox-X').addClass('superbox-O');
+
+			/*
+			 * Is a superbox-show in the same row already open? No? Then...
+			 */
+			if (sbImgBottom != sbShowTop) {
+
+				/*
+				 * Slide down superbox-show
+				 */
+				selection.slideDown(function(){
+
+					/*
+					 * Set sdShowTop position to top of superbox-show
+					 */
+					sbShowTop = $('.superbox-O').offset().top;
+
+					/*
+					 * Scroll so that superbox-show is vertically centered
+					 */
+					$('html,body').animate({
+							scrollTop: sbShowTop - (($(window).height() - $('.superbox-O').height())/2)
+					}, 'fast');
+
+					/*
+					 * Reset sbImgBottom to current bottom position of clicked image
+					 */
+					sbImgBottom = $(this).prev().find('img').offset().top + $(this).prev().find('img').height();
+
+				})
+					/*
+					 * Fade in image and close-icon
+					 */
+					.find('img.superbox-current-img')
+						.animate({opacity:1},1000)
+					.end().find('a.superbox-close')
+						.animate({opacity:0.7},1000);
+
+			} else {
+
+				selection
+					/*
+					 * Since a superbox-show in the same row is already open, no need to slide up and down
+					 */
+					.show()
+					/*
+					 * Fade in image and set close icon opacity
+					 */
+					.find('img.superbox-current-img')
+						.animate({opacity:1},1000)
+					.end().find('a.superbox-close')
+						.css('opacity','0.7');
+
+			}
 		});
 
 		/*
@@ -160,6 +242,12 @@
 			 * Open/Close superbox-show based on click
 			 */
 			$(this).on('click',function(){
+
+				/*
+				 * Set sbImgBottom to bottom position of clicked image
+				 */
+				sbImgBottom = $(this).find('img').offset().top + $(this).find('img').height();
+
 				/*
 				 * Close any _other_ open superbox-show if it's not _this_ superbox-show.
 				 */
@@ -171,6 +259,10 @@
 				 * Close _this_ superbox-show if it's open already, otherwise open it
 				 */
 				if ($(this).next('.superbox-O').length) {
+					/*
+					 * Reset sbImgBottom to 0 to trigger slide up
+					 */
+					sbImgBottom = 0;
 					closeUp($(this));
 				} else {
 					openUp($(this));
@@ -185,6 +277,10 @@
 		 */
 		$('.superbox-close').on('click',function(event){
 			event.preventDefault();
+			/*
+			 * Reset sbImgBottom to 0 to trigger slide up
+			 */
+			sbImgBottom = 0;
 			closeUp($(this).parent().prev());
 		});
 
