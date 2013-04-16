@@ -1,5 +1,5 @@
 /**
- * SuperBox v2.0.3
+ * SuperBox v2.0.4
  * The lightbox reimagined. Fully responsive HTML5 image galleries.
  * 
  * Latest version: https://github.com/seyDoggy/superbox
@@ -30,7 +30,7 @@
 		var sbImgBottom,
 			sbShowTop,
 			sbShow = $('<div class="superbox-show superbox-X"/>'),
-			sbImg = $('<img src="" class="superbox-current-img"/>'),
+			sbImg = $('<img src="img/ajax-loader.gif" class="superbox-current-img"/>'),
 			sbClose = $('<a href="#" class="superbox-close">&#215;</a>'),
 			sbFloat = $('<div class="superbox-float"/>'),
 			sbList = this.find('>div');
@@ -89,9 +89,15 @@
 		 * opens the clicked $(this).next() superbox-show
 		 * Accepts element (selector) parameter.
 		 */
-		var openUp = (function(elem){
+		var openUp = (function(elem, fullImg){
 
 			var selection = elem.next();
+
+			/*
+			 * Add source data to dynamically created full size image
+			 */
+			selection.find('img.superbox-current-img')
+				.attr('src',fullImg);
 
 			/*
 			 * Swap open and closed classes
@@ -117,7 +123,7 @@
 					 * Scroll so that superbox-show is vertically centered
 					 */
 					$('html,body').animate({
-							scrollTop: sbShowTop - (($(window).height() - $('.superbox-O').height())/2)
+							scrollTop: sbShowTop - (($(window).height() - $('.superbox-O').outerHeight(true))/2)
 					}, 'fast');
 
 					/*
@@ -127,11 +133,9 @@
 
 				})
 					/*
-					 * Fade in image and close-icon
+					 * Fade in close-icon
 					 */
-					.find('img.superbox-current-img')
-						.animate({opacity:1},1000)
-					.end().find('a.superbox-close')
+					.find('a.superbox-close')
 						.animate({opacity:0.7},1000);
 
 			} else {
@@ -142,14 +146,18 @@
 					 */
 					.show()
 					/*
-					 * Fade in image and set close icon opacity
+					 * set close icon opacity
 					 */
-					.find('img.superbox-current-img')
-						.animate({opacity:1},1000)
-					.end().find('a.superbox-close')
+					.find('a.superbox-close')
 						.css('opacity','0.7');
 
 			}
+
+			/*
+			 * Fade in image and close-icon
+			 */
+			selection.find('img.superbox-current-img')
+				.animate({opacity:1},1000);
 		});
 
 		/*
@@ -226,23 +234,15 @@
 		 */
 		sbList.each(function(){
 
-			/**
-			 * DECLARATIONS
-			 */
-			var imageData = $(this).find('img').data('img');
-
-			/*
-			 * Add source data to dynamically created full size image
-			 */
-			$(this)
-				.next()
-					.find('img.superbox-current-img')
-						.attr('src',imageData);
-
 			/*
 			 * Open/Close superbox-show based on click
 			 */
 			$(this).on('click',function(){
+
+				/**
+				 * DECLARATIONS
+				 */
+				var imageData = $(this).find('img').data('img');
 
 				/*
 				 * Set sbImgBottom to bottom position of clicked image
@@ -266,7 +266,7 @@
 					sbImgBottom = 0;
 					closeUp($(this));
 				} else {
-					openUp($(this));
+					openUp($(this),imageData);
 				}
 
 			});
