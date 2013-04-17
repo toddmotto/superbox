@@ -1,5 +1,5 @@
 /**
- * SuperBox v2.0.9
+ * SuperBox v2.0.10
  * The lightbox reimagined. Fully responsive HTML5 image galleries.
  * 
  * Latest version: https://github.com/seyDoggy/superbox
@@ -140,9 +140,10 @@
 			});
 
 			var setHeight = (function(){
-				var thisHeight = selection.outerWidth(true)*0.6667;
-				if (thisHeight > 600) {
-					selection.outerHeight(600);
+				var thisHeight = selection.outerWidth(true)*0.6667,
+					thisWindow = $(window).height();
+				if (thisHeight > thisWindow) {
+					selection.outerHeight(thisWindow * 0.8);
 				} else {
 					selection.outerHeight(selection.outerWidth(true)*0.6667);
 				}
