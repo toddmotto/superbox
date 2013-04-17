@@ -1,5 +1,5 @@
 /**
- * SuperBox v2.0.10
+ * SuperBox v2.0.11
  * The lightbox reimagined. Fully responsive HTML5 image galleries.
  * 
  * Latest version: https://github.com/seyDoggy/superbox
@@ -181,7 +181,7 @@
 					 * Scroll so that superbox-show is vertically centered
 					 */
 					$('html,body').animate({
-							scrollTop: sbShowTop - (($(window).height() - $(this).height())/2)
+							scrollTop: sbShowTop - (($(window).height() - $(this).outerHeight(true))/2)
 					}, 'fast');
 
 					/*
