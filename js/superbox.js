@@ -1,5 +1,5 @@
 /**
- * SuperBox v2.0.6
+ * SuperBox v2.0.7
  * The lightbox reimagined. Fully responsive HTML5 image galleries.
  * 
  * Latest version: https://github.com/seyDoggy/superbox
@@ -145,13 +145,13 @@
 					/*
 					 * Set sdShowTop position to top of superbox-show
 					 */
-					sbShowTop = $('.superbox-O').offset().top;
+					sbShowTop = $(this).offset().top;
 
 					/*
 					 * Scroll so that superbox-show is vertically centered
 					 */
 					$('html,body').animate({
-							scrollTop: sbShowTop - (($(window).height() - $('.superbox-O').height())/2)
+							scrollTop: sbShowTop - (($(window).height() - $(this).height())/2)
 					}, 'fast');
 
 					/*
