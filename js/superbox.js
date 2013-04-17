@@ -1,5 +1,5 @@
 /**
- * SuperBox v2.0.7
+ * SuperBox v2.0.8
  * The lightbox reimagined. Fully responsive HTML5 image galleries.
  * 
  * Latest version: https://github.com/seyDoggy/superbox
@@ -36,6 +36,20 @@
 			sbList = this.find('>div');
 
 		/**
+		 * bodyHeight
+		 * 
+		 * In order to circumvent a pages desire to collapse between slides
+		 * we temporarily set the html height, then unset it when we're done.
+		 */
+		var bodyHeight = (function(action){
+			if (action === 'set') {
+				$('html').css('height',$('html').outerHeight(true));
+			} else if (action == 'unset') {
+				$('html').css('height','');
+			}
+		});
+
+		/**
 		 * closeUp
 		 * 
 		 * Closes any open superbox-show
@@ -67,8 +81,18 @@
 						.slideUp(function(){
 							sbShowTop = 0;
 							sbImgBottom = 0;
+							/*
+							 * unset the html height
+							 */
+							bodyHeight('unset');
 						});
 			} else {
+
+				/*
+				 * temporarily set the html height
+				 */
+				bodyHeight('set');
+
 				selection
 					/*
 					 * Fade out image
@@ -179,6 +203,10 @@
 					.find('a.superbox-close')
 						.css('opacity','0.7');
 
+				/*
+				 * unset the html height
+				 */
+				bodyHeight('unset');
 			}
 
 			/*
