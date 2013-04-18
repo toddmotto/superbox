@@ -23,7 +23,6 @@ You can view the 2.0 [demo here](http://seydoggy.com/demo/superbox/), at least u
 1. Include the superbox plugin just after the call to jQuery.
 
 	```html
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 	<script src="js/superbox.js"></script>
 	```
 
