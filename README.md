@@ -15,7 +15,24 @@ You can view the 2.0 [demo here](http://seydoggy.com/demo/superbox/), at least u
 ### Instructions
 
 1. Include jQuery in your page (likely just before the body tag).
+
+	```html
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	```
+
 1. Include the superbox plugin just after the call to jQuery.
+
+	```html
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	<script src="js/superbox.js"></script>
+	```
+
+1. Include the other superbox assets (css, images, etc...) accordingly.
+	
+	```html
+	<link href="css/superbox.css" rel="stylesheet">
+	````
+
 1. Add a div to your markup with a class or id that suits your needs. For example:
 
 	```html
@@ -59,9 +76,11 @@ You can view the 2.0 [demo here](http://seydoggy.com/demo/superbox/), at least u
 1. Invoke superbox on the gallery div. It's best to do this on document ready or some such handler. For example:
 
 	```js
+	<script>
 	$(function() {
     	$('.MyGallery').SuperBox();
     });
+    </script>
 	```
 
 ### Options
