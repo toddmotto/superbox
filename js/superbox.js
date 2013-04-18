@@ -31,7 +31,7 @@
 			sbShowTop,
 			sbShow = $('<div class="superbox-show superbox-X"/>'),
 			sbImg = $('<img src="img/ajax-loader.gif" class="superbox-current-img"/>'),
-			sbClose = $('<a href="#" class="superbox-close">&#215;</a>'),
+			sbClose = $('<a href="#" class="superbox-close"><i class="icon-cancel-circle"></i></a>'),
 			sbFloat = $('<div class="superbox-float"/>'),
 			sbList = this.find('>div');
 
