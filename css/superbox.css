@@ -1,5 +1,5 @@
 /**
- * SuperBox v2.0.12
+ * SuperBox v2.0.13
  * The lightbox reimagined. Fully responsive HTML5 image galleries.
  * 
  * Latest version: https://github.com/seyDoggy/superbox
@@ -140,8 +140,8 @@
   }
 }
 */
-[class^="icon-"]:before,
-[class*=" icon-"]:before {
+.superbox-active [class^="icon-"]:before,
+.superbox-active [class*=" icon-"]:before {
   font-family: 'cancel';
   font-style: normal;
   font-weight: normal;
@@ -166,4 +166,4 @@
 /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
 }
 
-.icon-cancel-circle:before { content: '\2716'; } /* '✖' */
+.superbox-active .icon-cancel-circle:before { content: '\2716'; } /* '✖' */

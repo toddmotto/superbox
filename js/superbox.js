@@ -1,5 +1,5 @@
 /**
- * SuperBox v2.0.12
+ * SuperBox v2.0.13
  * The lightbox reimagined. Fully responsive HTML5 image galleries.
  * 
  * Latest version: https://github.com/seyDoggy/superbox
