@@ -88,12 +88,15 @@ The 'expander' if you'd like to call it that, which expands and displays the cur
 The CSS for each 'box' looks like so, which you can see includes the *display:inline; hack for IE7 fixing:
 
 ```css
+.superbox-active
+{
+	letter-spacing: 0;
+	word-spacing: 0;
+	font-size: 0;
+}
 .superbox-active > div
 {
-	position:relative;
-	left:4px;
 	display:inline-block;
-	margin-left:-4px;
 	width:12.5%;
 	zoom:1;
 }
