@@ -75,7 +75,7 @@ You can view the 2.0 [demo here](http://seydoggy.com/demo/superbox/), at least u
 
 1. Invoke superbox on the gallery div. It's best to do this on document ready or some such handler. For example:
 
-	```js
+	```html
 	<script>
 	$(function() {
     	$('.MyGallery').SuperBox();
