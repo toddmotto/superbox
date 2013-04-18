@@ -1,5 +1,5 @@
 /**
- * SuperBox v2.0.11
+ * SuperBox v2.0.12
  * The lightbox reimagined. Fully responsive HTML5 image galleries.
  * 
  * Latest version: https://github.com/seyDoggy/superbox
@@ -16,12 +16,17 @@
 	-moz-box-sizing:border-box;
 	box-sizing:border-box;
 } 
+
+.superbox-active
+{
+	letter-spacing: 0;
+	word-spacing: 0;
+	font-size: 0;
+}
+
 .superbox-active > div
 {
-	position:relative;
-	left:4px;
 	display:inline-block;
-	margin-left:-4px;
 	width:12.5%;
 	zoom:1;
 }
