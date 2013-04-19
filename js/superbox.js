@@ -1,5 +1,5 @@
 /**
- * SuperBox v2.0.13
+ * SuperBox v2.0.14
  * The lightbox reimagined. Fully responsive HTML5 image galleries.
  * 
  * Latest version: https://github.com/seyDoggy/superbox
@@ -132,7 +132,7 @@
 					selection.outerWidth(elem.width()*8);
 				} else if ($(window).width() > 767) {
 					selection.outerWidth(elem.width()*6);
-				} else if ($(window).width() > 467) {
+				} else if ($(window).width() > 485) {
 					selection.outerWidth(elem.width()*4);
 				} else {
 					selection.outerWidth(elem.width()*2);
