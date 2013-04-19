@@ -1,5 +1,5 @@
 /**
- * SuperBox v2.0.14
+ * SuperBox
  * The lightbox reimagined. Fully responsive HTML5 image galleries.
  * 
  * Latest version: https://github.com/seyDoggy/superbox
@@ -10,16 +10,22 @@
  * 
  * Licensed under the MIT license <http://www.opensource.org/licenses/mit-license.php>
  */
- ;(function($) {
+ ;(function($, undefined) {
+	'use strict';
+
+	var pluginName = 'SuperBox',
+		pluginVersion = '2.1.0';
 
 	$.fn.SuperBox = function(options) {
 
 		/**
 		 * OPTIONS
 		 */
-		var settings = $.extend({
+		var defaults = $.extend({
 			background : null,
 			border : null,
+			height : 400,
+			view : 'landscape',
 			xColor : null,
 			xShadow : 'none'
 		}, options);
@@ -34,6 +40,10 @@
 			sbClose = $('<a href="#" class="superbox-close"><i class="icon-cancel-circle"></i></a>'),
 			sbFloat = $('<div class="superbox-float"/>'),
 			sbList = this.find('>div');
+
+		/**
+		 * METHODS
+		 */
 
 		/**
 		 * bodyHeight
@@ -124,34 +134,68 @@
 				.attr('src',fullImg);
 
 			/*
-			 * Set height of superbox-show 
+			 * Set width of superbox-show 
 			 */
 
 			var setWidth = (function(){
 				if ($(window).width() > 1024) {
-					selection.outerWidth(elem.width()*8);
+					if (selection.outerWidth(true) != elem.width()*8) {
+						selection.outerWidth(elem.width()*8);
+					}
 				} else if ($(window).width() > 767) {
-					selection.outerWidth(elem.width()*6);
-				} else if ($(window).width() > 485) {
-					selection.outerWidth(elem.width()*4);
+					if (selection.outerWidth(true) != elem.width()*6) {
+						selection.outerWidth(elem.width()*6);
+					}
+				} else if ($(window).width() > 467) {
+					if (selection.outerWidth(true) != elem.width()*4) {
+						selection.outerWidth(elem.width()*4);
+					}
 				} else {
-					selection.outerWidth(elem.width()*2);
+					if (selection.outerWidth(true) != elem.width()*2) {
+						selection.outerWidth(elem.width()*2);
+					}
 				}
 			});
 
+			/*
+			 * Set height of superbox-show 
+			 */
+
 			var setHeight = (function(){
-				var thisHeight = selection.outerWidth(true)*0.6667,
-					thisWindow = $(window).height();
-				if (thisHeight > thisWindow) {
-					selection.outerHeight(thisWindow * 0.8);
-				} else {
-					selection.outerHeight(selection.outerWidth(true)*0.6667);
+				var thisWidth = selection.outerWidth(true),
+					thisHeight = defaults.height + (16 * 3), /* 1.5em padding */
+					newHeight = thisHeight,
+					thisWindow = $(window).height() * 0.80,
+					thisView = defaults.view,
+					thisRatio = 0.6667;
+
+				if (newHeight > thisWindow) {
+					newHeight = thisWindow;
 				}
+
+				if (thisView === 'landscape') {
+					if (thisWidth < newHeight / thisRatio) {
+						newHeight = thisWidth * thisRatio;
+					}
+				}
+
+				if (thisView === 'portrait') {
+					if (thisWidth < newHeight * thisRatio) {
+						newHeight = thisWidth / thisRatio;
+					}
+				}
+
+				if (thisView === 'square') {
+					if (thisWidth < newHeight) {
+						newHeight = thisWidth;
+					}
+				}
+
+				selection.outerHeight(newHeight);
 			});
 
 			setWidth();
 			setHeight();
-
 			$(window).resize(function(){
 				setWidth();
 				setHeight();
@@ -222,6 +266,20 @@
 				.animate({opacity:1},1000);
 		});
 
+		/**
+		 * IMPLEMENTATION
+		 ****************/
+
+		/*
+		 * Add superbox-active class to allow for CSS to take hold
+		 */
+		this.addClass('superbox-active');
+
+		/*
+		 * Add superbox-list class for easier CSS targeting
+		 */
+		sbList.addClass('superbox-list');
+
 		/*
 		 * Create dynamic superbox content
 		 */
@@ -233,56 +291,51 @@
 		sbFloat.appendTo(this);
 
 		/*
-		 * Add superbox-active class to allow for CSS to take hold
+		 * Test for and utilize defaults.background
 		 */
-		this.addClass('superbox-active');
-
-		/*
-		 * Test for and utilize settings.background
-		 */
-		if (settings.background !== null) {
+		if (defaults.background !== null) {
 			sbList
 				.next()
 					.css({
-						'background-color': settings.background
+						'background-color': defaults.background
 					});
 		}
 
 		/*
-		 * Test for and utilize settings.border
+		 * Test for and utilize defaults.border
 		 */
-		if (settings.border !== null) {
+		if (defaults.border !== null) {
 			sbList
 				.next()
 					.find('img.superbox-current-img')
 						.css({
-							'border-color': settings.border
+							'border-color': defaults.border
 						});
 		}
 
 		/*
-		 * Test for and utilize settings.xColor
+		 * Test for and utilize defaults.xColor
 		 */
-		if (settings.xColor !== null) {
+		if (defaults.xColor !== null) {
 			sbList
 				.next()
 					.find('a.superbox-close')
 						.css({
-							'color': settings.xColor
+							'color': defaults.xColor
 						});
 		}
 
 		/*
-		 * Test for and utilize settings.xShadow
+		 * Test for and utilize defaults.xShadow
 		 */
-		if (settings.xShadow == 'emboss') {
+		if (defaults.xShadow == 'emboss') {
 			sbList
 				.next()
 					.find('a.superbox-close')
 						.css({
 							'text-shadow': '0 1px 0 rgba(0,0,0,0.6), 0 -1px 0 rgba(250,250,250,0.2)'
 						});
-		} else if (settings.xShadow == 'embed') {
+		} else if (defaults.xShadow == 'embed') {
 			sbList
 				.next()
 					.find('a.superbox-close')

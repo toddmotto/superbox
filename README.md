@@ -88,62 +88,21 @@ You can view the 2.0 [demo here](http://seydoggy.com/demo/superbox/), at least u
 $.SuperBox({
 	background : '#FF0000', // Full image background color. Default: #333
 	border : 'white', // Full image border color. Default: #222
+	height : 600, // Maximum full image height. Default: 400
+	view : 'landscape|square|portrait', // Sets ratio on smaller viewports. Default: landscape
 	xColor : '#CCC', // Close icon color. Default: #FFF
 	xShadow : 'embed' // Close icon shadow. Default: none
 });
 ```
 
-### Technology notes
-
-#### HTML5 data-* attributes
+### HTML5 data-* attributes
 
 SuperBox feeds off the data-img custom attribute I've added to display the full image, this means we don't have to rely on more markup as it dynamically appends the data-img source for you.
 
-#### CSS
-
-The 'expander' if you'd like to call it that, which expands and displays the current image you've clicked on uses a float, which allows it to fill up the entire row of divs using some clever CSS trickery.
-
-The CSS for each 'box' looks like so, which you can see includes the *display:inline; hack for IE7 fixing:
-
-```css
-.superbox-active
-{
-	letter-spacing: 0;
-	word-spacing: 0;
-	font-size: 0;
-}
-.superbox-active > div
-{
-	display:inline-block;
-	width:12.5%;
-	zoom:1;
-}
-```
-
-Each image uses a maximum and auto width property as well, so that it responds fluidly to the width of the viewport.
-
-```css
-.superbox-active > div img
-{
-	max-width:100%;
-	width:100%;
-	vertical-align:bottom;
-	cursor:pointer;
-}
-```
-
-#### Responsive
+### Responsive
 
 SuperBox is also responsive, allowing you to use it across any device. The media queries are really basic so you can build and expand upon it to fit within your project.
 
-#### jQuery
+### Browser support
 
-The jQuery is pretty simple stuff, and at the minute it's a pretty simple lightweight plugin.
-
-#### Browser support
-
-I've tested SuperBox on all modern browsers, IE7, IE8, IE9 and IE10 and it works perfectly. The sizing is a little different in IE7 as by default the plugin is shipped with box-sizing:border-box; which changes the CSS box model for the better. Read up on it if you're unsure about box-sizing.
-
-### Extending SuperBox
-
-At the minute SuperBox is pretty flexible and a perfect platform to build upon. I do plan on updating it to include more features in the near future. Should you have ideas for future plugin additions, feel free to get involved and comment, fork or update it.
+Works on all modern browsers, IE8 and above.
