@@ -14,7 +14,7 @@
 	'use strict';
 
 	var pluginName = 'SuperBox',
-		pluginVersion = '2.1.0';
+		pluginVersion = '2.1.1';
 
 	$.fn.SuperBox = function(options) {
 
@@ -146,7 +146,7 @@
 					if (selection.outerWidth(true) != elem.width()*6) {
 						selection.outerWidth(elem.width()*6);
 					}
-				} else if ($(window).width() > 467) {
+				} else if ($(window).width() > 485) {
 					if (selection.outerWidth(true) != elem.width()*4) {
 						selection.outerWidth(elem.width()*4);
 					}
