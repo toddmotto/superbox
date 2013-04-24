@@ -85,7 +85,7 @@
 						}
 					} else if (notLast === false && notInRowB === true) {
 						if (noSuperbox === true) {
-							setA();
+							setB();
 						} else {
 							$('.superbox-show').slideUp(function(){
 								setB();
