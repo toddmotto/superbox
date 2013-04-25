@@ -298,6 +298,34 @@
 			}
 		};
 
+		/**
+		 * keyBoardNav
+		 * 
+		 * Allows use of left and right arrow keys to navigate through images in a given row.
+		 */
+		var keyBoardNav = function(){
+			$(document.documentElement).keyup(function (event) {
+				var direction = null,
+					selector = null;
+				if (event.keyCode == 37) {
+					/*
+					 * go left
+					 */
+					direction = 'prev';
+					selector = '.superbox-list';
+				} else if (event.keyCode == 39) {
+					/*
+					 * go right
+					 */
+					direction = 'nextAll';
+					selector = '.superbox-list:first';
+				}
+				if (direction !== null) {
+					$('.superbox-O')[direction](selector).click();
+				}
+			});
+		};
+
 		/*
 		 * IMPLEMENTATION
 		 */
@@ -352,6 +380,8 @@
 
 			useDefaults();
 		});
+
+		keyBoardNav();
 
 		return this;
 	};
