@@ -1,16 +1,13 @@
 # Superbox
 ## The lightbox, reimagined
 
-**Copyright 2013 Todd Motto <http://www.toddmotto.com>**   
-**Copyright 2013 Adam Merrifield <http://seydesign.com>**
-
-SuperBox is a new jQuery plugin I've been composing over the last few days. SuperBox takes the whole 'image' and 'lightbox' one step further, reducing the JavaScript and image load dependence to make lightboxing a thing of the past! Using HTML5 data-* attributes, responsive layouts and jQuery, here's SuperBox.
+SuperBox takes the whole 'image' and 'lightbox' one step further, reducing the JavaScript and image load dependence to make lightboxing a thing of the past! Using HTML5 data-* attributes, responsive layouts and jQuery, here's SuperBox.
 
 SuperBox works wonders as a static image gallery, which you can click to reveal a full version of the image. Each image in the demo is the same size, but SuperBox supports any image size.
 
 ### Demo
 
-You can view the 2.0 [demo here](http://seydoggy.com/demo/superbox/), at least until the Todd merges my branch anyhow.
+You can view the v3 [demo here](http://seydoggy.com/demo/superbox/).
 
 ### Instructions
 
@@ -23,7 +20,7 @@ You can view the 2.0 [demo here](http://seydoggy.com/demo/superbox/), at least u
 1. Include the superbox plugin just after the call to jQuery.
 
 	```html
-	<script src="js/superbox.js"></script>
+	<script src="js/jquery.superbox.js"></script>
 	```
 
 1. Include the other superbox assets (css, images, etc...) accordingly.
@@ -69,6 +66,12 @@ You can view the 2.0 [demo here](http://seydoggy.com/demo/superbox/), at least u
 		<div>
 		    <img src="img/thumb-6.jpg" data-img="img/full-6.jpg" alt="">
 		</div>
+		<div>
+		    <img src="img/thumb-7.jpg" data-img="img/full-7.jpg" alt="">
+		</div>
+		<div>
+		    <img src="img/thumb-8.jpg" data-img="img/full-8.jpg" alt="">
+		</div>
 	</div>
 	```	
 
@@ -102,6 +105,10 @@ SuperBox feeds off the data-img custom attribute I've added to display the full 
 ### Responsive
 
 SuperBox is also responsive, allowing you to use it across any device. The media queries are really basic so you can build and expand upon it to fit within your project.
+
+### Keyboard navigation
+
+Superbox allows your viewers to arrow through your image gallery.
 
 ### Browser support
 
