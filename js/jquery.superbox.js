@@ -153,32 +153,22 @@
 			/*
 			 * METHODS (createSuperboxShow)
 			 */
-				fabricate = function(type){
+				openSuperBoxShow = function(type){
 					if (type === 'A') {
-						createAfterLastA();
+						sbShow.append(sbImg).append(sbClose).insertAfter(elem.nextAll('.superbox-last:first'));
 					} else {
-						createAfterLastB();
+						sbShow.append(sbImg).append(sbClose).insertAfter(elem);
 					}
-					setImageData(elem);
-					openSuperboxShow();
-				},
-				createAfterLastA = function(){
-					sbShow.append(sbImg).append(sbClose).insertAfter(elem.nextAll('.superbox-last:first'));
 					setSuperBoxHeight();
 					setSuperboxWidth();
-				},
-				createAfterLastB = function(){
-					sbShow.append(sbImg).append(sbClose).insertAfter(elem);
-					setSuperBoxHeight();
-				},
-				setImageData = function(elem){
-					$('.superbox-show img.superbox-current-img').attr('src',elem.find('img').data('img'));
-				},
-				openSuperboxShow = function(){
+					setImageData(elem);
 					$('.superbox-show').slideDown('slow',function(){
 						moveToTop();
 						setOpenClass(true);
 					});
+				},
+				setImageData = function(elem){
+					$('.superbox-show img.superbox-current-img').attr('src',elem.find('img').data('img'));
 				},
 				moveToTop = function(){
 					$('html, body').animate({
@@ -233,21 +223,20 @@
 			if (isOpen === false) {
 				if (notLast === true && notInRowA === true) {
 					if (noSuperbox === true) {
-						fabricate('A');
+						openSuperBoxShow('A');
 					} else {
 						revealImage(false);
 						$('.superbox-show').slideUp(function(){
-							fabricate('A');
+							openSuperBoxShow('A');
 						});
 					}
 				} else if (notLast === false && notInRowB === true) {
 					if (noSuperbox === true) {
-						fabricate('B');
+						openSuperBoxShow('B');
 					} else {
 						revealImage(false);
 						$('.superbox-show').slideUp(function(){
-							revealImage(false);
-							fabricate('B');
+							openSuperBoxShow('B');
 						});
 					}
 				} else {
