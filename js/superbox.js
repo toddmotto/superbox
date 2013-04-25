@@ -18,7 +18,7 @@
 
 	$.fn.SuperBox = function(options) {
 
-		/**
+		/*
 		 * DECLARATIONS
 		 */
 		var sbImgBottom,
@@ -33,7 +33,7 @@
 			sbList4 = this.find('>div:nth-child(4n)'),
 			sbList2 = this.find('>div:nth-child(2n)');
 
-		/**
+		/*
 		 * METHODS
 		 */
 
@@ -43,67 +43,140 @@
 		 * Last thumbnail is determined based on window width.
 		 */
 		var setLastClass = function(){
-			if ($(window).width() > 1024) {
-				sbList.removeClass('superbox-last');
-				sbList8.addClass('superbox-last');
-			} else if ($(window).width() > 767) {
-				sbList.removeClass('superbox-last');
-				sbList6.addClass('superbox-last');
-			} else if ($(window).width() > 485) {
-				sbList.removeClass('superbox-last');
-				sbList4.addClass('superbox-last');
-			} else {
-				sbList.removeClass('superbox-last');
-				sbList2.addClass('superbox-last');
-			}
+			sbList.removeClass('superbox-last');
+			sbList8.addClass('superbox-last');
+			$(window).resize(function(){
+				if ($(window).width() > 1024) {
+					sbList.removeClass('superbox-last');
+					sbList8.addClass('superbox-last');
+				} else if ($(window).width() > 767) {
+					sbList.removeClass('superbox-last');
+					sbList6.addClass('superbox-last');
+				} else if ($(window).width() > 485) {
+					sbList.removeClass('superbox-last');
+					sbList4.addClass('superbox-last');
+				} else {
+					sbList.removeClass('superbox-last');
+					sbList2.addClass('superbox-last');
+				}
+			});
 		};
 
 		/**
 		 * createSuperboxShow
 		 * 
-		 * Dynamically create superbox-show and insert it after superbox-last
+		 * Dynamically create superbox-show and insert it after superbox-last,
+		 * apply data-img of the thumbnail to the source of the full image,
+		 * open the superbox-show,
+		 * fade in and out of each image,
+		 * close superbox-show when X is clicked
+		 * close superbox-show when open image is clicked
 		 */
 		var createSuperboxShow = function(elem){
+			/*
+			 * DECLARATIONS (createSuperboxShow)
+			 */
 			var noSuperbox = !$('.superbox-show').length,
+				isOpen = elem.hasClass('superbox-O'),
 				notLast = !elem.hasClass('superbox-last'),
 				notInRowA = !elem.nextAll('.superbox-last:first').next('.superbox-show').length,
 				notInRowB = !elem.next('.superbox-show').length,
-				setA = function(){
+			/*
+			 * METHODS (createSuperboxShow)
+			 */
+				fabricate = function(type){
+					if (type === 'A') {
+						createAfterLastA();
+					} else {
+						createAfterLastB();
+					}
+					setImageData(elem);
+					openSuperboxShow();
+				},
+				revealImage = function(bool){
+					if (bool === true) {
+						$('.superbox-show img.superbox-current-img').animate({opacity:1},750);
+					} else {
+						$('.superbox-show img.superbox-current-img').animate({opacity:0},100,function(){
+							setImageData(elem);
+						});
+					}
+				},
+				quickSwap = function(){
+					revealImage(false);
+					revealImage(true);
+					setOpenClass(true);
+				},
+				createAfterLastA = function(){
 					sbShow.append(sbImg).append(sbClose).insertAfter(elem.nextAll('.superbox-last:first'));
 				},
-				setB = function(){
+				createAfterLastB = function(){
 					sbShow.append(sbImg).append(sbClose).insertAfter(elem);
 				},
-				create = function(){
-					if (notLast === true && notInRowA === true) {
-						if (noSuperbox === true) {
-							setA();
-						} else {
-							$('.superbox-show').slideUp(function(){
-								setA();
-							});
-						}
-					} else if (notLast === false && notInRowB === true) {
-						if (noSuperbox === true) {
-							setB();
-						} else {
-							$('.superbox-show').slideUp(function(){
-								setB();
-							});
-						}
+				setImageData = function(elem){
+					$('img.superbox-current-img').attr('src',elem.find('img').data('img'));
+				},
+				openSuperboxShow = function(){
+					$('.superbox-show').slideDown('slow',function(){
+						revealImage(true);
+						setOpenClass(true);
+					});
+				},
+				setOpenClass = function(bool){
+					if (bool === true) {
+						sbList.removeClass('superbox-O');
+						elem.addClass('superbox-O');
+					} else {
+						sbList.removeClass('superbox-O');
+					}
+				},
+				closeSuperBoxShow = function(){
+					var closeUp = function(){
+						revealImage(false);
+						$('.superbox-show').slideUp(function(){
+							$(this).remove();
+							setOpenClass(false);
+							revealImage(false);
+						});
+					};
+					$('.superbox-close').on('click',function(event){
+						event.preventDefault();
+						closeUp();
+					});
+					if (isOpen === true) {
+						closeUp();
 					}
 				};
 
-			create();
-		};
+			/*
+			 * IMPLEMENTATION (createSuperboxShow)
+			 */
+			if (isOpen === false) {
+				if (notLast === true && notInRowA === true) {
+					if (noSuperbox === true) {
+						fabricate('A');
+					} else {
+						revealImage(false);
+						$('.superbox-show').slideUp(function(){
+							fabricate('A');
+						});
+					}
+				} else if (notLast === false && notInRowB === true) {
+					if (noSuperbox === true) {
+						fabricate('B');
+					} else {
+						revealImage(false);
+						$('.superbox-show').slideUp(function(){
+							revealImage(false);
+							fabricate('B');
+						});
+					}
+				} else {
+					quickSwap();
+				}
+			}
 
-		/**
-		 * openSuperboxShow
-		 * 
-		 * opens superbox-show when present.
-		 */
-		var openSuperboxShow = function(){
-			$('.superbox-show').slideDown();
+			closeSuperBoxShow();
 		};
 
 		/**
@@ -121,9 +194,9 @@
 			});
 		};
 
-		/**
+		/*
 		 * IMPLEMENTATION
-		 ****************/
+		 */
 
 		/*
 		 * Add superbox-active class to allow for CSS to take hold
@@ -139,9 +212,6 @@
 		 * Set superbox-last class
 		 */
 		setLastClass();
-		$(window).resize(function(){
-			setLastClass();
-		});
 
 		/*
 		 * Create final float
@@ -149,74 +219,25 @@
 		sbFloat.appendTo(this);
 
 		/*
-		 * Iterate through each superbox-list
+		 * Open/Close superbox-show based on click
 		 */
-		sbList.each(function(){
+		sbList.on('click',function(){
 
 			/*
-			 * Open/Close superbox-show based on click
+			 * Set sbImgBottom to bottom position of clicked image
 			 */
-			$(this).on('click',function(){
+			sbImgBottom = $(this).find('img').offset().top + $(this).find('img').height();
 
-				/* pseudocode
-				if superbox-show does not exist
-					create superbox-show
-					set superbox-show image src to imageData
-					animate opening of superbox-show
-					reveal image
-					move superbox-show to center screen
-				else
-					if superbox-show img is same as this imageData
-						animate closing of superbox-show
-					else
-						set superbox-show image src to imageData
-						reveal image
-					endif
-				endif
-
-				set image data
-				reveal image
-				*/
-
-				/**
-				 * DECLARATIONS
-				 */
-				var imageData = $(this).find('img').data('img');
-
-				sbList.removeClass('superbox-O');
-				$(this).addClass('superbox-O');
-
-				/*
-				 * Set sbImgBottom to bottom position of clicked image
-				 */
-				sbImgBottom = $(this).find('img').offset().top + $(this).find('img').height();
-
-				createSuperboxShow($(this));
-
-				keepShowAfterLast();
-
-				/*
-				 * Add source data to dynamically created full size image
-				 */
-				$('img.superbox-current-img')
-					.attr('src',$(this).find('img').data('img'));
-
-				openSuperboxShow();
-
-			});
-
-		});
-
-		/*
-		 * Close superbox-show when the close button is clicked.
-		 */
-		$('.superbox-close').on('click',function(event){
-			event.preventDefault();
 			/*
-			 * Reset sbImgBottom to 0 to trigger slide up
+			 * Create superbox-show
 			 */
-			sbImgBottom = 0;
-			closeUp($(this).parent().prev());
+			createSuperboxShow($(this));
+
+			/*
+			 * Keep superbox-show after the proper row at all times
+			 */
+			keepShowAfterLast();
+
 		});
 
 		return this;
