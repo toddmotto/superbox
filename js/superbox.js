@@ -22,8 +22,12 @@
 		 * OPTIONS
 		 */
 		var defaults = $.extend({
+			background : null,
+			border : null,
 			height : 400,
-			view : 'landscape'
+			view : 'landscape',
+			xColor : null,
+			xShadow : 'none'
 		}, options);
 
 		/*
@@ -105,6 +109,31 @@
 		});
 
 		/**
+		 * setSuperboxWidth
+		 * 
+		 * Set superbox-show outer width based # of thumbnails.
+		 */
+		var setSuperboxWidth = (function(){
+			if ($(window).width() > 1024) {
+				if ($('.superbox-show').outerWidth(true) != sbList.width()*8) {
+					$('.superbox-show').outerWidth(sbList.width()*8);
+				}
+			} else if ($(window).width() > 767) {
+				if ($('.superbox-show').outerWidth(true) != sbList.width()*6) {
+					$('.superbox-show').outerWidth(sbList.width()*6);
+				}
+			} else if ($(window).width() > 485) {
+				if ($('.superbox-show').outerWidth(true) != sbList.width()*4) {
+					$('.superbox-show').outerWidth(sbList.width()*4);
+				}
+			} else {
+				if ($('.superbox-show').outerWidth(true) != sbList.width()*2) {
+					$('.superbox-show').outerWidth(sbList.width()*2);
+				}
+			}
+		});
+
+		/**
 		 * createSuperboxShow
 		 * 
 		 * Dynamically create superbox-show and insert it after superbox-last,
@@ -139,13 +168,14 @@
 				createAfterLastA = function(){
 					sbShow.append(sbImg).append(sbClose).insertAfter(elem.nextAll('.superbox-last:first'));
 					setSuperBoxHeight();
+					setSuperboxWidth();
 				},
 				createAfterLastB = function(){
 					sbShow.append(sbImg).append(sbClose).insertAfter(elem);
 					setSuperBoxHeight();
 				},
 				setImageData = function(elem){
-					$('img.superbox-current-img').attr('src',elem.find('img').data('img'));
+					$('.superbox-show img.superbox-current-img').attr('src',elem.find('img').data('img'));
 				},
 				openSuperboxShow = function(){
 					$('.superbox-show').slideDown('slow',function(){
@@ -246,6 +276,28 @@
 			});
 		};
 
+		/**
+		 * useDefaults
+		 * 
+		 * Make us of and apply user settings
+		 */
+		var useDefaults = function(){
+			if (defaults.background !== null) {
+				$('.superbox-show ').css('background-color',defaults.background);
+			}
+			if (defaults.border !== null) {
+				$('.superbox-show img.superbox-current-img').css('border-color',defaults.border);
+			}
+			if (defaults.xColor !== null) {
+				$('.superbox-close').css('color',defaults.xColor);
+			}
+			if (defaults.xShadow == 'emboss') {
+				$('.superbox-close').css('text-shadow','0 1px 0 rgba(0,0,0,0.6), 0 -1px 0 rgba(250,250,250,0.2)');
+			} else if (defaults.xShadow == 'embed') {
+				$('.superbox-close').css('text-shadow','0 -1px 0 rgba(0,0,0,0.4), 0 1px 0 rgba(250,250,250,0.5)');
+			}
+		};
+
 		/*
 		 * IMPLEMENTATION
 		 */
@@ -266,12 +318,12 @@
 		setLastClass();
 
 		/*
-		 * Adjust superbox-show height based on window size
+		 * Adjust superbox-show height and width based on window size
 		 */
 		$(window).resize(function(){
 			setSuperBoxHeight();
+			setSuperboxWidth();
 		});
-
 
 		/*
 		 * Create final float
@@ -297,6 +349,8 @@
 			 * Keep superbox-show after the proper row at all times
 			 */
 			keepShowAfterLast();
+
+			useDefaults();
 		});
 
 		return this;
