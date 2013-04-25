@@ -362,25 +362,25 @@
 		 * Open/Close superbox-show based on click
 		 */
 		sbList.on('click',function(){
-
-			/*
-			 * Set sbImgBottom to bottom position of clicked image
-			 */
-			sbImgBottom = $(this).find('img').offset().top + $(this).find('img').height();
-
 			/*
 			 * Create superbox-show
 			 */
 			createSuperboxShow($(this));
 
 			/*
-			 * Keep superbox-show after the proper row at all times
+			 * Apply user settings
 			 */
-			keepShowAfterLast();
-
 			useDefaults();
 		});
 
+		/*
+		 * Keep superbox-show after the proper row at all times
+		 */
+		keepShowAfterLast();
+
+		/*
+		 * Enable keyboard navigation
+		 */
 		keyBoardNav();
 
 		return this;
