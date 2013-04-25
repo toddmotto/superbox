@@ -301,7 +301,7 @@
 		/**
 		 * keyBoardNav
 		 * 
-		 * Allows use of left and right arrow keys to navigate through images in a given row.
+		 * Allows use of left and right arrow keys to navigate through images.
 		 */
 		var keyBoardNav = function(){
 			$(document.documentElement).keyup(function (event) {
