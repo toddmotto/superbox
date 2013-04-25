@@ -19,6 +19,14 @@
 	$.fn.SuperBox = function(options) {
 
 		/*
+		 * OPTIONS
+		 */
+		var defaults = $.extend({
+			height : 400,
+			view : 'landscape'
+		}, options);
+
+		/*
 		 * DECLARATIONS
 		 */
 		var sbImgBottom,
@@ -43,9 +51,7 @@
 		 * Last thumbnail is determined based on window width.
 		 */
 		var setLastClass = function(){
-			sbList.removeClass('superbox-last');
-			sbList8.addClass('superbox-last');
-			$(window).resize(function(){
+			var lastThumbnail = function(){
 				if ($(window).width() > 1024) {
 					sbList.removeClass('superbox-last');
 					sbList8.addClass('superbox-last');
@@ -59,8 +65,44 @@
 					sbList.removeClass('superbox-last');
 					sbList2.addClass('superbox-last');
 				}
+			};
+
+			lastThumbnail();
+			$(window).resize(function(){
+				lastThumbnail();
 			});
 		};
+
+		/**
+		 * setSuperBoxHeight
+		 * 
+		 * Set superbox-show outer height based on default height,
+		 * based on viewport height,
+		 * based on standard 2:3 ratio,
+		 * based on default orientation.
+		 */
+		var setSuperBoxHeight = (function(){
+			var thisWidth = $('.superbox-show').outerWidth(true),
+				thisHeight = defaults.height + (16 * 3), /* 1.5em padding */
+				newHeight = thisHeight,
+				thisWindow = $(window).height() * 0.80,
+				thisView = defaults.view,
+				thisRatio = 0.6667;
+
+			if (newHeight > thisWindow) {
+				newHeight = thisWindow;
+			}
+			if ((thisView === 'landscape') && (thisWidth < newHeight / thisRatio)) {
+				newHeight = thisWidth * thisRatio;
+			}
+			if ((thisView === 'portrait') && (thisWidth < newHeight * thisRatio)) {
+				newHeight = thisWidth / thisRatio;
+			}
+			if ((thisView === 'square') && (thisWidth < newHeight)) {
+				newHeight = thisWidth;
+			}
+			$('.superbox-show').outerHeight(newHeight);
+		});
 
 		/**
 		 * createSuperboxShow
@@ -109,9 +151,11 @@
 				},
 				createAfterLastA = function(){
 					sbShow.append(sbImg).append(sbClose).insertAfter(elem.nextAll('.superbox-last:first'));
+					setSuperBoxHeight();
 				},
 				createAfterLastB = function(){
 					sbShow.append(sbImg).append(sbClose).insertAfter(elem);
+					setSuperBoxHeight();
 				},
 				setImageData = function(elem){
 					$('img.superbox-current-img').attr('src',elem.find('img').data('img'));
@@ -214,6 +258,14 @@
 		setLastClass();
 
 		/*
+		 * Adjust superbox-show height based on window size
+		 */
+		$(window).resize(function(){
+			setSuperBoxHeight();
+		});
+
+
+		/*
 		 * Create final float
 		 */
 		sbFloat.appendTo(this);
@@ -237,7 +289,6 @@
 			 * Keep superbox-show after the proper row at all times
 			 */
 			keepShowAfterLast();
-
 		});
 
 		return this;
