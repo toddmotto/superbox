@@ -111,7 +111,8 @@
 		 * apply data-img of the thumbnail to the source of the full image,
 		 * open the superbox-show,
 		 * fade in and out of each image,
-		 * close superbox-show when X is clicked
+		 * animate image to top of clicked row,
+		 * close superbox-show when X is clicked,
 		 * close superbox-show when open image is clicked
 		 */
 		var createSuperboxShow = function(elem){
@@ -135,20 +136,6 @@
 					setImageData(elem);
 					openSuperboxShow();
 				},
-				revealImage = function(bool){
-					if (bool === true) {
-						$('.superbox-show img.superbox-current-img').animate({opacity:1},750);
-					} else {
-						$('.superbox-show img.superbox-current-img').animate({opacity:0},100,function(){
-							setImageData(elem);
-						});
-					}
-				},
-				quickSwap = function(){
-					revealImage(false);
-					revealImage(true);
-					setOpenClass(true);
-				},
 				createAfterLastA = function(){
 					sbShow.append(sbImg).append(sbClose).insertAfter(elem.nextAll('.superbox-last:first'));
 					setSuperBoxHeight();
@@ -162,8 +149,15 @@
 				},
 				openSuperboxShow = function(){
 					$('.superbox-show').slideDown('slow',function(){
-						revealImage(true);
+						moveToTop();
 						setOpenClass(true);
+					});
+				},
+				moveToTop = function(){
+					$('html, body').animate({
+						scrollTop:$('.superbox-show').position().top - elem.width()
+					}, 'medium',function(){
+						revealImage(true);
 					});
 				},
 				setOpenClass = function(bool){
@@ -173,6 +167,20 @@
 					} else {
 						sbList.removeClass('superbox-O');
 					}
+				},
+				revealImage = function(bool){
+					if (bool === true) {
+						$('.superbox-show img.superbox-current-img').animate({opacity:1},750);
+					} else {
+						$('.superbox-show img.superbox-current-img').animate({opacity:0},100,function(){
+							setImageData(elem);
+						});
+					}
+				},
+				quickSwap = function(){
+					revealImage(false);
+					revealImage(true);
+					setOpenClass(true);
 				},
 				closeSuperBoxShow = function(){
 					var closeUp = function(){
