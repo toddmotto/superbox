@@ -161,13 +161,13 @@
 					}
 					setSuperBoxHeight();
 					setSuperboxWidth();
-					setImageData(elem);
+					setImageData();
 					$('.superbox-show').slideDown('slow',function(){
 						moveToTop();
 						setOpenClass(true);
 					});
 				},
-				setImageData = function(elem){
+				setImageData = function(){
 					$('.superbox-show img.superbox-current-img').attr('src',elem.find('img').data('img'));
 				},
 				moveToTop = function(){
@@ -190,7 +190,7 @@
 						$('.superbox-show img.superbox-current-img').animate({opacity:1},750);
 					} else {
 						$('.superbox-show img.superbox-current-img').animate({opacity:0},100,function(){
-							setImageData(elem);
+							setImageData();
 						});
 					}
 				},
