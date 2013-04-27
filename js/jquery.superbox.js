@@ -170,6 +170,12 @@
 				setImageData = function(){
 					$('.superbox-show img.superbox-current-img').attr('src',elem.find('img').data('img'));
 				},
+				preloadImageData = function(){
+					var next = elem.next().find('img'),
+						prev = elem.prev().find('img');
+					$('<img/>').attr('src',next.data('img'));
+					$('<img/>').attr('src',prev.data('img'));
+				},
 				moveToTop = function(){
 					$('html, body').animate({
 						scrollTop:$('.superbox-show').position().top - elem.width()
