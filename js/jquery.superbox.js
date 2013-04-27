@@ -11,7 +11,7 @@
 	'use strict';
 
 	var pluginName = 'SuperBox',
-		pluginVersion = '3.0.1';
+		pluginVersion = '3.0.2';
 
 	$.fn.SuperBox = function(options) {
 
@@ -135,6 +135,7 @@
 		 * 
 		 * Dynamically create superbox-show and insert it after superbox-last,
 		 * apply data-img of the thumbnail to the source of the full image,
+		 * preload previous and next full size image data into DOM,
 		 * open the superbox-show,
 		 * fade in and out of each image,
 		 * animate image to top of clicked row,
@@ -169,12 +170,13 @@
 				},
 				setImageData = function(){
 					$('.superbox-show img.superbox-current-img').attr('src',elem.find('img').data('img'));
+					preloadImageData();
 				},
 				preloadImageData = function(){
-					var next = elem.next().find('img'),
-						prev = elem.prev().find('img');
-					$('<img/>').attr('src',next.data('img'));
-					$('<img/>').attr('src',prev.data('img'));
+					var imgPrev = new Image(),
+						imgNext = new Image();
+					imgPrev.src = elem.prev().find('img').data('img');
+					imgNext.src = elem.next().find('img').data('img');
 				},
 				moveToTop = function(){
 					$('html, body').animate({
