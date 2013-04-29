@@ -31,6 +31,7 @@
 		 * DECLARATIONS
 		 */
 		var sbIsIconShown = false,
+			sdIsNavReady = false,
 			sbShow = $('<div class="superbox-show"/>'),
 			sbImg = $('<img src="img/ajax-loader.gif" class="superbox-current-img"/>'),
 			sbClose = $('<a href="#" class="superbox-close"><i class="icon-remove-sign"></i></a>'),
@@ -146,8 +147,8 @@
 			var noSuperbox = !$('.superbox-show').length,
 				isOpen = elem.hasClass('superbox-O'),
 				notLast = !elem.hasClass('superbox-last'),
-				notInRowA = !elem.nextAll('.superbox-last:first').next('.superbox-show').length,
-				notInRowB = !elem.next('.superbox-show').length,
+				notInRow = !elem.nextAll('.superbox-last:first').next('.superbox-show').length,
+				showNotNext = !elem.next('.superbox-show').length,
 			/*
 			 * METHODS (createSuperboxShow)
 			 */
@@ -160,14 +161,21 @@
 					setSuperBoxHeight();
 					setSuperboxLayout();
 					setImageData();
+					preloadImageData();
 					$('.superbox-show').slideDown('slow',function(){
 						moveToTop();
 						setOpenClass(true);
+						revealImage(true);
+						if (sdIsNavReady === false) {
+							$('.superbox-prev,.superbox-next').on('click',function(event){
+								navigation($(this),event);
+								sdIsNavReady = true;
+							});
+						}
 					});
 				},
 				setImageData = function(){
 					$('.superbox-show img.superbox-current-img').attr('src',elem.find('img').data('img'));
-					preloadImageData();
 				},
 				preloadImageData = function(){
 					var imgPrev = new Image(),
@@ -178,9 +186,7 @@
 				moveToTop = function(){
 					$('html, body').animate({
 						scrollTop:$('.superbox-show').position().top - elem.width()
-					}, 'medium',function(){
-						revealImage(true);
-					});
+					}, 'medium');
 				},
 				setOpenClass = function(bool){
 					if (bool === true) {
@@ -206,10 +212,6 @@
 					if (bool === true) {
 						sbIsIconShown = true;
 						$('.superbox-close, .superbox-prev, .superbox-next').animate({opacity:0.7},750);
-						$('.superbox-prev,.superbox-next').on('click',function(event){
-							event.preventDefault();
-							navigation($(this),event);
-						});
 					} else {
 						sbIsIconShown = false;
 						$('.superbox-close, .superbox-prev, .superbox-next').animate({opacity:0},100);
@@ -227,6 +229,7 @@
 						$('.superbox-show').slideUp(function(){
 							$(this).remove();
 							setOpenClass(false);
+							sdIsNavReady = false;
 						});
 					};
 					$('.superbox-close').on('click',function(event){
@@ -242,20 +245,22 @@
 			 * IMPLEMENTATION (createSuperboxShow)
 			 */
 			if (isOpen === false) {
-				if (notLast === true && notInRowA === true) {
+				if (notLast === true && notInRow === true) {
 					if (noSuperbox === true) {
 						openSuperBoxShow('A');
 					} else {
 						revealImage(false);
+						revealIcons(false);
 						$('.superbox-show').slideUp(function(){
 							openSuperBoxShow('A');
 						});
 					}
-				} else if (notLast === false && notInRowB === true) {
+				} else if (notLast === false && showNotNext === true) {
 					if (noSuperbox === true) {
 						openSuperBoxShow('B');
 					} else {
 						revealImage(false);
+						revealIcons(false);
 						$('.superbox-show').slideUp(function(){
 							openSuperBoxShow('B');
 						});
@@ -310,6 +315,7 @@
 		 * activates navigation based on action or selector
 		 */
 		var navigation = function(select,event){
+			event.preventDefault();
 			var direction = null,
 				selector = null;
 			if (event.keyCode == 37 || select.hasClass('superbox-prev')) {
@@ -356,11 +362,6 @@
 		sbList.addClass('superbox-list');
 
 		/*
-		 * Set superbox-last class
-		 */
-		// setSuperboxLayout();
-
-		/*
 		 * Adjust superbox-show height and width based on window size
 		 */
 		setSuperboxLayout();
@@ -373,6 +374,18 @@
 		 * Create final float
 		 */
 		sbFloat.appendTo(this);
+
+		/*
+		 * Preload image data when thumbnail is hovered over
+		 */
+		sbList.on('mouseenter',function(){
+			var img = new Image(),
+				source = $(this).find('img').data('img');
+			$(img).attr('src',source);
+			$(img).on('load',function(){
+				console.log(source);
+			});
+		});
 
 		/*
 		 * Open/Close superbox-show based on click
