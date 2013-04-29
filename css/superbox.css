@@ -73,7 +73,7 @@
 	height:30px;
 	color: #fff;
 	text-decoration: none;
-	opacity:0.7;
+	opacity:0;
 	cursor:pointer;
 }
 
@@ -110,7 +110,7 @@
 .superbox-active .superbox-next:hover
 {
 	text-decoration:none;
-	opacity:1;
+	opacity:1 ! important;
 }
 
 

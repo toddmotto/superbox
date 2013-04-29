@@ -11,7 +11,7 @@
 	'use strict';
 
 	var pluginName = 'SuperBox',
-		pluginVersion = '3.0.3';
+		pluginVersion = '3.0.4';
 
 	$.fn.SuperBox = function(options) {
 
@@ -30,11 +30,12 @@
 		/*
 		 * DECLARATIONS
 		 */
-		var sbImgBottom,
-			sbShowTop,
+		var sbIsIconShown = false,
 			sbShow = $('<div class="superbox-show"/>'),
 			sbImg = $('<img src="img/ajax-loader.gif" class="superbox-current-img"/>'),
-			sbClose = $('<a href="#" class="superbox-close"><i class="icon-cancel-circle"></i></a>'),
+			sbClose = $('<a href="#" class="superbox-close"><i class="icon-remove-sign"></i></a>'),
+			sbPrev = $('<a href="#" class="superbox-prev"><i class="icon-circle-arrow-left"></i></a>'),
+			sbNext = $('<a href="#" class="superbox-next"><i class="icon-circle-arrow-right"></i></a>'),
 			sbFloat = $('<div class="superbox-float"/>'),
 			sbList = this.find('>div'),
 			sbList8 = this.find('>div:nth-child(8n)'),
@@ -153,7 +154,7 @@
 			 */
 				openSuperBoxShow = function(type){
 					if (type === 'A') {
-						sbShow.append(sbImg).append(sbClose).insertAfter(elem.nextAll('.superbox-last:first'));
+						sbShow.append(sbImg).append(sbClose).append(sbPrev).append(sbNext).insertAfter(elem.nextAll('.superbox-last:first'));
 					} else {
 						sbShow.append(sbImg).append(sbClose).insertAfter(elem);
 					}
@@ -193,10 +194,22 @@
 				revealImage = function(bool){
 					if (bool === true) {
 						$('.superbox-show img.superbox-current-img').animate({opacity:1},750);
+						if (sbIsIconShown === false) {
+							revealIcons(true);
+						}
 					} else {
 						$('.superbox-show img.superbox-current-img').animate({opacity:0},100,function(){
 							setImageData();
 						});
+					}
+				},
+				revealIcons = function(bool){
+					if (bool === true) {
+						sbIsIconShown = true;
+						$('.superbox-active .superbox-close, .superbox-active .superbox-prev, .superbox-active .superbox-next').animate({opacity:0.7},750);
+					} else {
+						sbIsIconShown = false;
+						$('.superbox-active .superbox-close, .superbox-active .superbox-prev, .superbox-active .superbox-next').animate({opacity:0},100);
 					}
 				},
 				quickSwap = function(){
@@ -207,10 +220,10 @@
 				closeSuperBoxShow = function(){
 					var closeUp = function(){
 						revealImage(false);
+						revealIcons(false);
 						$('.superbox-show').slideUp(function(){
 							$(this).remove();
 							setOpenClass(false);
-							revealImage(false);
 						});
 					};
 					$('.superbox-close').on('click',function(event){
