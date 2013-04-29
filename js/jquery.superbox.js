@@ -11,7 +11,7 @@
 	'use strict';
 
 	var pluginName = 'SuperBox',
-		pluginVersion = '3.0.2';
+		pluginVersion = '3.0.3';
 
 	$.fn.SuperBox = function(options) {
 
