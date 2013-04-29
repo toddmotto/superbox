@@ -161,7 +161,6 @@
 					setSuperBoxHeight();
 					setSuperboxLayout();
 					setImageData();
-					preloadImageData();
 					$('.superbox-show').slideDown('slow',function(){
 						moveToTop();
 						setOpenClass(true);
@@ -176,6 +175,7 @@
 				},
 				setImageData = function(){
 					$('.superbox-show img.superbox-current-img').attr('src',elem.find('img').data('img'));
+					preloadImageData();
 				},
 				preloadImageData = function(){
 					var imgPrev = new Image(),
