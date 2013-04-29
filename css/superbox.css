@@ -132,30 +132,22 @@
  * Resonsive Rules
  */
 
-@media only screen and (min-width: 320px) {
-	.superbox-active .superbox-list
-	{
-		width:50%;
-	}
+.superbox-active .superbox-2
+{
+	width:50%;
 }
 
-@media only screen and (min-width: 486px) {
-	.superbox-active .superbox-list
-	{
-		width:25%;
-	}
+.superbox-active .superbox-4
+{
+	width:25%;
 }
 
-@media only screen and (min-width: 768px) {
-	.superbox-active .superbox-list
-	{
-		width:16.66666667%;
-	}
+.superbox-active .superbox-6
+{
+	width:16.66666667%;
 }
 
-@media only screen and (min-width: 1025px) {
-	.superbox-active .superbox-list
-	{
-		width:12.5%;
-	}
+.superbox-active .superbox-8
+{
+	width:12.5%;
 }

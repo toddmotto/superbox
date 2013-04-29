@@ -47,31 +47,53 @@
 		 */
 
 		/**
-		 * setLastClass
+		 * setSuperboxLayout
 		 * 
-		 * Last thumbnail is determined based on window width.
+		 * Removes previously set classes,
+		 * Add classes based on parent width,
+		 * Set .superbox.show width based number of columns
 		 */
-		var setLastClass = function(){
-			var lastThumbnail = function(){
-				if ($(window).width() > 1024) {
-					sbList.removeClass('superbox-last');
-					sbList8.addClass('superbox-last');
-				} else if ($(window).width() > 767) {
-					sbList.removeClass('superbox-last');
-					sbList6.addClass('superbox-last');
-				} else if ($(window).width() > 485) {
-					sbList.removeClass('superbox-last');
-					sbList4.addClass('superbox-last');
-				} else {
-					sbList.removeClass('superbox-last');
-					sbList2.addClass('superbox-last');
+		var setSuperboxLayout = function(num){
+			var setColumns = function(num){
+				var lastItem,
+					columnClass = 'superbox-' + num,
+					classArray = ['superbox-last','superbox-8','superbox-6','superbox-4','superbox-2'];
+				if (num === 8) {
+					lastItem = sbList8;
+				} else if (num === 6) {
+					lastItem = sbList6;
+				} else if (num === 4) {
+					lastItem = sbList4;
+				} else if (num === 2) {
+					lastItem = sbList2;
+				}
+				/*
+				 * remove classes
+				 */
+				for (var i = classArray.length - 1; i >= 0; i--) {
+					sbList.removeClass(classArray[i]);
+				}
+				/*
+				 * add classes
+				 */
+				sbList.addClass(columnClass);
+				lastItem.addClass('superbox-last');
+				/*
+				 * set superbox-show width
+				 */
+				if ($('.superbox-show').outerWidth(true) != sbList.width()*num) {
+					$('.superbox-show').outerWidth(sbList.width()*num);
 				}
 			};
-
-			lastThumbnail();
-			$(window).resize(function(){
-				lastThumbnail();
-			});
+			if ($('.superbox-active').width() > 1024) {
+				setColumns(8);
+			} else if ($('.superbox-active').width() > 767) {
+				setColumns(6);
+			} else if ($('.superbox-active').width() > 485) {
+				setColumns(4);
+			} else {
+				setColumns(2);
+			}
 		};
 
 		/**
@@ -106,31 +128,6 @@
 		});
 
 		/**
-		 * setSuperboxWidth
-		 * 
-		 * Set superbox-show outer width based # of thumbnails.
-		 */
-		var setSuperboxWidth = (function(){
-			if ($(window).width() > 1024) {
-				if ($('.superbox-show').outerWidth(true) != sbList.width()*8) {
-					$('.superbox-show').outerWidth(sbList.width()*8);
-				}
-			} else if ($(window).width() > 767) {
-				if ($('.superbox-show').outerWidth(true) != sbList.width()*6) {
-					$('.superbox-show').outerWidth(sbList.width()*6);
-				}
-			} else if ($(window).width() > 485) {
-				if ($('.superbox-show').outerWidth(true) != sbList.width()*4) {
-					$('.superbox-show').outerWidth(sbList.width()*4);
-				}
-			} else {
-				if ($('.superbox-show').outerWidth(true) != sbList.width()*2) {
-					$('.superbox-show').outerWidth(sbList.width()*2);
-				}
-			}
-		});
-
-		/**
 		 * createSuperboxShow
 		 * 
 		 * Dynamically create superbox-show and insert it after superbox-last,
@@ -161,7 +158,7 @@
 						sbShow.append(sbImg).append(sbClose).insertAfter(elem);
 					}
 					setSuperBoxHeight();
-					setSuperboxWidth();
+					setSuperboxLayout();
 					setImageData();
 					$('.superbox-show').slideDown('slow',function(){
 						moveToTop();
@@ -337,14 +334,15 @@
 		/*
 		 * Set superbox-last class
 		 */
-		setLastClass();
+		// setSuperboxLayout();
 
 		/*
 		 * Adjust superbox-show height and width based on window size
 		 */
+		setSuperboxLayout();
 		$(window).resize(function(){
 			setSuperBoxHeight();
-			setSuperboxWidth();
+			setSuperboxLayout();
 		});
 
 		/*
