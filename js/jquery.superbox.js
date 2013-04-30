@@ -11,7 +11,7 @@
 	'use strict';
 
 	var pluginName = 'SuperBox',
-		pluginVersion = '3.0.4';
+		pluginVersion = '3.0.5';
 
 	$.fn.SuperBox = function(options) {
 
@@ -342,9 +342,12 @@
 		 * Allows use of left and right arrow keys to navigate through images.
 		 */
 		var keyBoardNav = function(){
-			$(document.documentElement).keyup(function (event) {
-				navigation($(this),event);
-			});
+			if (sdIsNavReady === false) {
+				$(document.documentElement).keyup(function (event) {
+					navigation($(this),event);
+					sdIsNavReady = true;
+				});
+			}
 		};
 
 		/*
