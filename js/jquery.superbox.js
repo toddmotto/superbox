@@ -11,7 +11,7 @@
 	'use strict';
 
 	var pluginName = 'SuperBox',
-		pluginVersion = '3.0.5';
+		pluginVersion = '3.0.6';
 
 	$.fn.SuperBox = function(options) {
 
@@ -90,7 +90,7 @@
 				setColumns(8);
 			} else if ($('.superbox-active').width() > 767) {
 				setColumns(6);
-			} else if ($('.superbox-active').width() > 485) {
+			} else if ($('.superbox-active').width() > 320) {
 				setColumns(4);
 			} else {
 				setColumns(2);
