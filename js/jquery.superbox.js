@@ -11,7 +11,7 @@
 	'use strict';
 
 	var pluginName = 'SuperBox',
-		pluginVersion = '3.0.6';
+		pluginVersion = '3.0.7';
 
 	$.fn.SuperBox = function(options) {
 
@@ -78,7 +78,7 @@
 				 * add classes
 				 */
 				sbList.addClass(columnClass);
-				lastItem.addClass('superbox-last');
+				lastItem.add(sbList.last()).addClass('superbox-last');
 				/*
 				 * set superbox-show width
 				 */
