@@ -11,7 +11,7 @@
 	'use strict';
 
 	var pluginName = 'SuperBox',
-		pluginVersion = '3.0.7';
+		pluginVersion = '3.0.8';
 
 	$.fn.SuperBox = function(options) {
 
@@ -185,7 +185,7 @@
 				},
 				moveToTop = function(){
 					$('html, body').animate({
-						scrollTop:$('.superbox-show').position().top - elem.width()
+						scrollTop:$('.superbox-show').offset().top - elem.width()
 					}, 'medium');
 				},
 				setOpenClass = function(bool){
