@@ -385,9 +385,6 @@
 			var img = new Image(),
 				source = $(this).find('img').data('img');
 			$(img).attr('src',source);
-			$(img).on('load',function(){
-				console.log(source);
-			});
 		});
 
 		/*
