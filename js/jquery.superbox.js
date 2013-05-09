@@ -11,7 +11,7 @@
 	'use strict';
 
 	var pluginName = 'SuperBox',
-		pluginVersion = '3.0.9';
+		pluginVersion = '3.1.0';
 
 	$.fn.SuperBox = function(options) {
 
@@ -31,7 +31,7 @@
 		 * DECLARATIONS
 		 */
 		var sbIsIconShown = false,
-			sdIsNavReady = false,
+			sbIsNavReady = false,
 			sbShow = $('<div class="superbox-show"/>'),
 			sbImg = $('<img src="img/ajax-loader.gif" class="superbox-current-img"/>'),
 			sbClose = $('<a href="#" class="superbox-close"><i class="icon-remove-sign"></i></a>'),
@@ -42,7 +42,8 @@
 			sbList8 = this.find('>div:nth-child(8n)'),
 			sbList6 = this.find('>div:nth-child(6n)'),
 			sbList4 = this.find('>div:nth-child(4n)'),
-			sbList2 = this.find('>div:nth-child(2n)');
+			sbList2 = this.find('>div:nth-child(2n)'),
+			sbWrapper = this;
 
 		/*
 		 * METHODS
@@ -82,15 +83,15 @@
 				/*
 				 * set superbox-show width
 				 */
-				if ($('.superbox-show').outerWidth(true) != sbList.width()*num) {
-					$('.superbox-show').outerWidth(sbList.width()*num);
+				if (sbWrapper.find('.superbox-show').outerWidth(true) != sbList.width()*num) {
+					sbWrapper.find('.superbox-show').outerWidth(sbList.width()*num);
 				}
 			};
-			if ($('.superbox-active').width() > 1024) {
+			if (sbWrapper.width() > 1024) {
 				setColumns(8);
-			} else if ($('.superbox-active').width() > 767) {
+			} else if (sbWrapper.width() > 767) {
 				setColumns(6);
-			} else if ($('.superbox-active').width() > 320) {
+			} else if (sbWrapper.width() > 320) {
 				setColumns(4);
 			} else {
 				setColumns(2);
@@ -106,7 +107,7 @@
 		 * based on default orientation.
 		 */
 		var setSuperBoxHeight = (function(){
-			var thisWidth = $('.superbox-show').outerWidth(true),
+			var thisWidth = sbWrapper.find('.superbox-show').outerWidth(true),
 				thisHeight = defaults.height + (16 * 3), /* 1.5em padding */
 				newHeight = thisHeight,
 				thisWindow = $(window).height() * 0.80,
@@ -125,7 +126,7 @@
 			if ((thisView === 'square') && (thisWidth < newHeight)) {
 				newHeight = thisWidth;
 			}
-			$('.superbox-show').outerHeight(newHeight);
+			sbWrapper.find('.superbox-show').outerHeight(newHeight);
 		});
 
 		/**
@@ -144,7 +145,7 @@
 			/*
 			 * DECLARATIONS (createSuperboxShow)
 			 */
-			var noSuperbox = !$('.superbox-show').length,
+			var noSuperbox = !sbWrapper.find('.superbox-show').length,
 				isOpen = elem.hasClass('superbox-O'),
 				notLast = !elem.hasClass('superbox-last'),
 				notInRow = !elem.nextAll('.superbox-last:first').next('.superbox-show').length,
@@ -161,20 +162,27 @@
 					setSuperBoxHeight();
 					setSuperboxLayout();
 					setImageData();
-					$('.superbox-show').slideDown('slow',function(){
+					sbWrapper.find('.superbox-show').slideDown('slow',function(){
 						moveToTop();
 						setOpenClass(true);
 						revealImage(true);
-						if (sdIsNavReady === false) {
-							$('.superbox-prev,.superbox-next').on('click',function(event){
+						if (sbIsNavReady === false) {
+							sbWrapper.find('.superbox-prev,.superbox-next').on('click',function(event){
 								navigation($(this),event);
-								sdIsNavReady = true;
+								sbIsNavReady = true;
+							});
+							/*
+							 * Keyboard navigation
+							 */
+							$(document.documentElement).keyup(function (event) {
+								navigation($(this),event);
+								sbIsNavReady = true;
 							});
 						}
 					});
 				},
 				setImageData = function(){
-					$('.superbox-show img.superbox-current-img').attr('src',elem.find('img').data('img'));
+					sbWrapper.find('.superbox-show img.superbox-current-img').attr('src',elem.find('img').data('img'));
 					preloadImageData();
 				},
 				preloadImageData = function(){
@@ -185,7 +193,7 @@
 				},
 				moveToTop = function(){
 					$('html, body').animate({
-						scrollTop:$('.superbox-show').offset().top - elem.width()
+						scrollTop:sbWrapper.find('.superbox-show').offset().top - elem.width()
 					}, 'medium');
 				},
 				setOpenClass = function(bool){
@@ -198,12 +206,12 @@
 				},
 				revealImage = function(bool){
 					if (bool === true) {
-						$('.superbox-show img.superbox-current-img').animate({opacity:1},750);
+						sbWrapper.find('.superbox-show img.superbox-current-img').animate({opacity:1},750);
 						if (sbIsIconShown === false) {
 							revealIcons(true);
 						}
 					} else {
-						$('.superbox-show img.superbox-current-img').animate({opacity:0},100,function(){
+						sbWrapper.find('.superbox-show img.superbox-current-img').animate({opacity:0},100,function(){
 							setImageData();
 						});
 					}
@@ -211,10 +219,10 @@
 				revealIcons = function(bool){
 					if (bool === true) {
 						sbIsIconShown = true;
-						$('.superbox-close, .superbox-prev, .superbox-next').animate({opacity:0.7},750);
+						sbWrapper.find('.superbox-close, .superbox-prev, .superbox-next').animate({opacity:0.7},750);
 					} else {
 						sbIsIconShown = false;
-						$('.superbox-close, .superbox-prev, .superbox-next').animate({opacity:0},100);
+						sbWrapper.find('.superbox-close, .superbox-prev, .superbox-next').animate({opacity:0},100);
 					}
 				},
 				quickSwap = function(){
@@ -226,13 +234,13 @@
 					var closeUp = function(){
 						revealImage(false);
 						revealIcons(false);
-						$('.superbox-show').slideUp(function(){
+						sbWrapper.find('.superbox-show').slideUp(function(){
 							$(this).remove();
 							setOpenClass(false);
-							sdIsNavReady = false;
+							sbIsNavReady = false;
 						});
 					};
-					$('.superbox-close').on('click',function(event){
+					sbWrapper.find('.superbox-close').on('click',function(event){
 						event.preventDefault();
 						closeUp();
 					});
@@ -251,7 +259,7 @@
 					} else {
 						revealImage(false);
 						revealIcons(false);
-						$('.superbox-show').slideUp(function(){
+						sbWrapper.find('.superbox-show').slideUp(function(){
 							openSuperBoxShow('A');
 						});
 					}
@@ -261,7 +269,7 @@
 					} else {
 						revealImage(false);
 						revealIcons(false);
-						$('.superbox-show').slideUp(function(){
+						sbWrapper.find('.superbox-show').slideUp(function(){
 							openSuperBoxShow('B');
 						});
 					}
@@ -279,10 +287,10 @@
 		 */
 		var keepShowAfterLast = function(){
 			$(window).resize(function(){
-				if ($('.superbox-O').hasClass('superbox-last')) {
-					$('.superbox-show').insertAfter($('.superbox-O'));
+				if (sbWrapper.find('.superbox-O').hasClass('superbox-last')) {
+					sbWrapper.find('.superbox-show').insertAfter(sbWrapper.find('.superbox-O'));
 				} else {
-					$('.superbox-show').insertAfter($('.superbox-O').nextAll('.superbox-last:first'));
+					sbWrapper.find('.superbox-show').insertAfter(sbWrapper.find('.superbox-O').nextAll('.superbox-last:first'));
 				}
 			});
 		};
@@ -294,18 +302,18 @@
 		 */
 		var useDefaults = function(){
 			if (defaults.background !== null) {
-				$('.superbox-show ').css('background-color',defaults.background);
+				sbWrapper.find('.superbox-show').css('background-color',defaults.background);
 			}
 			if (defaults.border !== null) {
-				$('.superbox-show img.superbox-current-img').css('border-color',defaults.border);
+				sbWrapper.find('.superbox-show img.superbox-current-img').css('border-color',defaults.border);
 			}
 			if (defaults.xColor !== null) {
-				$('.superbox-close, .superbox-prev, .superbox-next').css('color',defaults.xColor);
+				sbWrapper.find('.superbox-close, .superbox-prev, .superbox-next').css('color',defaults.xColor);
 			}
 			if (defaults.xShadow == 'emboss') {
-				$('.superbox-close, .superbox-prev, .superbox-next').css('text-shadow','0 1px 0 rgba(0,0,0,0.6), 0 -1px 0 rgba(250,250,250,0.2)');
+				sbWrapper.find('.superbox-close, .superbox-prev, .superbox-next').css('text-shadow','0 1px 0 rgba(0,0,0,0.6), 0 -1px 0 rgba(250,250,250,0.2)');
 			} else if (defaults.xShadow == 'embed') {
-				$('.superbox-close, .superbox-prev, .superbox-next').css('text-shadow','0 -1px 0 rgba(0,0,0,0.4), 0 1px 0 rgba(250,250,250,0.5)');
+				sbWrapper.find('.superbox-close, .superbox-prev, .superbox-next').css('text-shadow','0 -1px 0 rgba(0,0,0,0.4), 0 1px 0 rgba(250,250,250,0.5)');
 			}
 		};
 
@@ -332,21 +340,7 @@
 				selector = '.superbox-list:first';
 			}
 			if (direction !== null) {
-				$('.superbox-O')[direction](selector).click();
-			}
-		};
-
-		/**
-		 * keyBoardNav
-		 * 
-		 * Allows use of left and right arrow keys to navigate through images.
-		 */
-		var keyBoardNav = function(){
-			if (sdIsNavReady === false) {
-				$(document.documentElement).keyup(function (event) {
-					navigation($(this),event);
-					sdIsNavReady = true;
-				});
+				sbWrapper.find('.superbox-O')[direction](selector).click();
 			}
 		};
 
@@ -406,11 +400,6 @@
 		 * Keep superbox-show after the proper row at all times
 		 */
 		keepShowAfterLast();
-
-		/*
-		 * Enable keyboard navigation
-		 */
-		keyBoardNav();
 
 		return this;
 	};
