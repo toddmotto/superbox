@@ -175,8 +175,10 @@
 							 * Keyboard navigation
 							 */
 							$(document.documentElement).keyup(function (event) {
-								navigation($(this),event);
-								sbIsNavReady = true;
+								if (isScrolledIntoView() === true) {
+									navigation($(this),event);
+									sbIsNavReady = true;
+								}
 							});
 						}
 					});
@@ -195,6 +197,15 @@
 					$('html, body').animate({
 						scrollTop:sbWrapper.find('.superbox-show').offset().top - elem.width()
 					}, 'medium');
+				},
+				isScrolledIntoView = function (){
+					var docViewTop = $(window).scrollTop();
+					var docViewBottom = docViewTop + $(window).height();
+
+					var elemTop = sbWrapper.find('.superbox-show').offset().top;
+					var elemBottom = elemTop + sbWrapper.find('.superbox-show').height();
+
+					return ((elemBottom <= docViewBottom) && (elemTop >= docViewTop));
 				},
 				setOpenClass = function(bool){
 					if (bool === true) {
@@ -223,6 +234,27 @@
 					} else {
 						sbIsIconShown = false;
 						sbWrapper.find('.superbox-close, .superbox-prev, .superbox-next').animate({opacity:0},100);
+					}
+				},
+				navigation = function(select,event){
+					event.preventDefault();
+					var direction = null,
+						selector = null;
+					if (event.keyCode == 37 || select.hasClass('superbox-prev')) {
+						/*
+						 * go left
+						 */
+						direction = 'prev';
+						selector = '.superbox-list';
+					} else if (event.keyCode == 39 || select.hasClass('superbox-next')) {
+						/*
+						 * go right
+						 */
+						direction = 'nextAll';
+						selector = '.superbox-list:first';
+					}
+					if (direction !== null) {
+						sbWrapper.find('.superbox-O')[direction](selector).click();
 					}
 				},
 				quickSwap = function(){
@@ -314,33 +346,6 @@
 				sbWrapper.find('.superbox-close, .superbox-prev, .superbox-next').css('text-shadow','0 1px 0 rgba(0,0,0,0.6), 0 -1px 0 rgba(250,250,250,0.2)');
 			} else if (defaults.xShadow == 'embed') {
 				sbWrapper.find('.superbox-close, .superbox-prev, .superbox-next').css('text-shadow','0 -1px 0 rgba(0,0,0,0.4), 0 1px 0 rgba(250,250,250,0.5)');
-			}
-		};
-
-		/**
-		 * navigation
-		 * 
-		 * activates navigation based on action or selector
-		 */
-		var navigation = function(select,event){
-			event.preventDefault();
-			var direction = null,
-				selector = null;
-			if (event.keyCode == 37 || select.hasClass('superbox-prev')) {
-				/*
-				 * go left
-				 */
-				direction = 'prev';
-				selector = '.superbox-list';
-			} else if (event.keyCode == 39 || select.hasClass('superbox-next')) {
-				/*
-				 * go right
-				 */
-				direction = 'nextAll';
-				selector = '.superbox-list:first';
-			}
-			if (direction !== null) {
-				sbWrapper.find('.superbox-O')[direction](selector).click();
 			}
 		};
 
