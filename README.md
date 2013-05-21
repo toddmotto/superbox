@@ -7,7 +7,7 @@ SuperBox works wonders as a static image gallery, which you can click to reveal 
 
 ### Demo
 
-You can view the v3 [demo here](http://seydoggy.com/demo/superbox/).
+You can view the v3 [demo here](http://seydoggy.github.io/superbox/).
 
 ### Instructions
 
