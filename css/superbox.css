@@ -1,0 +1,186 @@
+/**
+ * SuperBox
+ * The lightbox reimagined. Fully responsive HTML5 image galleries.
+ * 
+ * Latest version: https://github.com/seyDoggy/superbox
+ * Original version: https://github.com/toddmotto/superbox
+ * 
+ * License <https://github.com/seyDoggy/superbox/blob/master/LICENSE.txt>
+ */
+.superbox-active
+{
+	word-spacing: 0;
+	letter-spacing: 0;
+	font-size: 0;
+}
+
+.superbox-active *
+{
+	-webkit-box-sizing:border-box;
+	-moz-box-sizing:border-box;
+	box-sizing:border-box;
+	word-spacing: normal;
+	letter-spacing: normal;
+	font-size: 16px;
+} 
+
+.superbox-active .superbox-list
+{
+	display:inline-block;
+	width:12.5%;
+	zoom:1;
+	vertical-align: bottom;
+}
+
+.superbox-active .superbox-list img
+{
+	width:100%;
+	vertical-align:bottom;
+	cursor:pointer;
+}
+
+.superbox-active .superbox-list img:hover
+{
+	opacity:.8;
+}
+
+.superbox-active .superbox-show
+{
+	position:relative;
+	display:none;
+	float:left;
+	padding:1.5em;
+	width:100%;
+	background:#333;
+	box-shadow:inset 0 1px 5px #111;
+	text-align:center;
+}
+
+.superbox-active .superbox-show img.superbox-current-img
+{
+	width:auto;
+	height:100%;
+	border:1px solid #222;
+	box-shadow:0 1px 4px #222;
+	opacity:0;
+}
+
+.superbox-active .superbox-close,
+.superbox-active .superbox-prev,
+.superbox-active .superbox-next
+{
+	position:absolute;
+	width:30px;
+	height:30px;
+	color: #fff;
+	text-decoration: none;
+	opacity:0;
+	cursor:pointer;
+}
+
+.superbox-active .superbox-close
+{
+	top: 10px;
+	right: 10px;
+}
+
+.superbox-active .superbox-prev,
+.superbox-active .superbox-next
+{
+	top:50%;
+	margin-top: -15px;
+}
+
+.superbox-active .superbox-prev
+{
+	left:10px;
+}
+
+.superbox-active .superbox-next
+{
+	right:10px;
+}
+
+.superbox-active .superbox-show > a > i
+{
+	font-size: 30px;
+}
+
+.superbox-active .superbox-close:hover,
+.superbox-active .superbox-prev:hover,
+.superbox-active .superbox-next:hover
+{
+	text-decoration:none;
+	opacity:1 ! important;
+}
+
+
+.superbox-active .superbox-float
+{
+	float:left;
+}
+
+/*
+ * Resonsive Rules
+ */
+
+.superbox-active .superbox-2
+{
+	width:50%;
+}
+
+.superbox-active .superbox-4
+{
+	width:25%;
+}
+
+.superbox-active .superbox-6
+{
+	width:16.667%;
+}
+
+.superbox-active .superbox-8
+{
+	width:12.5%;
+}
+
+/*
+ * Font icons
+ */
+ @font-face {
+   font-family: 'SuperBoxIcons';
+   src: url('font/superboxicons.eot?6890439');
+   src: url('font/superboxicons.eot?6890439#iefix') format('embedded-opentype'),
+        url('font/superboxicons.woff?6890439') format('woff'),
+        url('font/superboxicons.ttf?6890439') format('truetype'),
+        url('font/superboxicons.svg?6890439#superboxicons') format('svg');
+   font-weight: normal;
+   font-style: normal;
+ }
+/*  Font Awesome styles
+    ------------------------------------------------------- */
+.superbox-active [class^="icon-"],
+.superbox-active [class*=" icon-"] {
+  font-family: SuperBoxIcons;
+  font-weight: normal;
+  font-style: normal;
+  text-decoration: inherit;
+  -webkit-font-smoothing: antialiased;
+}
+.superbox-active [class^="icon-"]:before,
+.superbox-active [class*=" icon-"]:before {
+  font-family: inherit;
+  font-weight: inherit;
+  font-style: inherit;
+  text-decoration: inherit;
+  display: inline-block;
+  speak: none;
+}
+/* makes sure icons active on rollover in links */
+.superbox-active a [class^="icon-"],
+.superbox-active a [class*=" icon-"] {
+  display: inline-block;
+}
+.superbox-active .icon-remove-sign:before		{ content: "\2716"; }
+.superbox-active .icon-circle-arrow-left:before		{ content: "\e4a1"; }
+.superbox-active .icon-circle-arrow-right:before		{ content: "\e4a2"; }

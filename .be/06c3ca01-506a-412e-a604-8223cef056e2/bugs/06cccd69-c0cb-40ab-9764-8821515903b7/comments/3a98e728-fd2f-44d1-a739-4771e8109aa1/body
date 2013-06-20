@@ -1,0 +1,1 @@
+When an image is clicked it should scan the data-img of the next and previous images and preload them into the DOM so their cached before they're requested.

@@ -1,0 +1,51 @@
+{
+    "name": "SuperBox",
+    "title": "SuperBox",
+    "description": "The lightbox reimagined. Fully responsive HTML5 image galleries.",
+    "keywords": [
+        "photo",
+        "photograph",
+        "photography",
+        "image",
+        "gallery",
+        "lightbox",
+        "display",
+        "presentation",
+        "animation"
+    ],
+    "version": "3.1.1",
+    "author": {
+        "name": "Adam Merrifield, Todd Motto and others",
+        "url": "https://github.com/seyDoggy/superbox/blob/master/AUTHORS.txt"
+    },
+    "maintainers": [
+        {
+            "name": "Todd Motto",
+            "email": "todd@toddmotto.com",
+            "url": "http://www.toddmotto.com"
+        },
+        {
+            "name": "Adam Merrifield",
+            "email": "macagp@gmail.com",
+            "url": "http://seydesign.com"
+        },
+        {
+            "name": "Mike Sozanski",
+            "email": "macsupport@gmail.com",
+            "url": "http://www.jalbumskins.com"
+        }
+    ],
+    "licenses": [
+        {
+            "type": "MIT",
+            "url": "https://github.com/seyDoggy/superbox/blob/master/LICENSE.txt"
+        }
+    ],
+    "bugs": "https://github.com/seyDoggy/superbox/issues",
+    "homepage": "https://github.com/seyDoggy/superbox",
+    "docs": "https://github.com/seyDoggy/superbox",
+    "download": "https://github.com/seyDoggy/superbox/archive/master.zip",
+    "dependencies": {
+        "jquery": ">=1.8"
+    }
+}

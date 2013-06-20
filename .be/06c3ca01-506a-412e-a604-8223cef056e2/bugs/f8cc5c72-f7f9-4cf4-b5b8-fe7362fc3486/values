@@ -1,0 +1,50 @@
+{
+
+
+
+
+
+
+    "creator": "Adam Merrifield <macagp@gmail.com>", 
+
+
+
+
+
+
+    "reporter": "Adam Merrifield <macagp@gmail.com>", 
+
+
+
+
+
+
+    "severity": "minor", 
+
+
+
+
+
+
+    "status": "closed", 
+
+
+
+
+
+
+    "summary": "setSuperboxWidth() incorrectly assumes width to be set to window, not parent container.", 
+
+
+
+
+
+
+    "time": "Sat, 27 Apr 2013 18:13:15 +0000"
+
+
+
+
+
+
+}
