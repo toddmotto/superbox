@@ -29,6 +29,7 @@
 	display:inline-block;
 	width:12.5%;
 	zoom:1;
+	vertical-align: bottom;
 }
 
 .superbox-active .superbox-list img
